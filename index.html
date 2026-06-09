@@ -270,7 +270,7 @@
   <h1>Sistema de Indicadores</h1>
   <p class="sub">Setor Cadastro</p>
   <div class="role-btns">
-    <div class="role-btn active" data-role="arthur" onclick="selRole('arthur')">📊 Arthur</div>
+    <div class="role-btn active" data-role="arthur" onclick="selRole('arthur')">📊 Gestor</div>
     <div class="role-btn" data-role="cicero" onclick="selRole('cicero')">🔧 Auxiliar</div>
   </div>
   <div class="login-box">
@@ -836,7 +836,7 @@ window.login = async () => {
   if (!senha) { err.textContent = 'Digite a senha'; return; }
   try {
     const snap = await getDoc(doc(db,'config','senhas_cadastro'));
-    const senhas = snap.exists() ? snap.data() : { arthur:'arthur123', cicero:'cicero123', admin:'admin123' };
+    const senhas = snap.exists() ? snap.data() : { arthur:'gestor123', cicero:'cicero123', admin:'admin123' };
     if (!snap.exists()) await setDoc(doc(db,'config','senhas_cadastro'), senhas);
     if (roleAtual === 'arthur' && senha === senhas.arthur) { entrarArthur(); }
     else if (roleAtual === 'cicero' && senha === senhas.cicero) { entrarCicero(); }
