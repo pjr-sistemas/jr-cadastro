@@ -1,1025 +1,1226 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-<meta name="theme-color" content="#0A0A0A"/>
-<meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<title>JR Cadastro</title>
-<link rel="manifest" href="manifest.json"/>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:'Segoe UI',Arial,sans-serif;background:#0A0A0A;color:#e2e8f0;min-height:100vh;overflow-x:hidden}
-:root{
-  --bronze:#CD7F32;--prata:#A8A9AD;--ouro:#FFD700;
-  --gold:#C9A84C;--gold-l:#E8C96B;
-  --bg:#0A0A0A;--card:#141414;--card2:#1C1C1C;--border:#2A2A2A;
-  --text:#FFFFFF;--muted:#888888;--accent:#3b82f6;
-  --green:#43A047;--red:#E53935;--yellow:#eab308;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>JR Cadastro</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0A0A0A">
+  <style>
+    :root {
+      --bg:     #0A0A0A;
+      --card:   #141414;
+      --card2:  #1C1C1C;
+      --border: #2A2A2A;
+      --gold:   #C9A84C;
+      --gold-l: #E8C96B;
+      --text:   #FFFFFF;
+      --muted:  #888888;
+      --bronze: #CD7F32;
+      --prata:  #A8A9AD;
+      --ouro:   #FFD700;
+      --fora:   #444444;
+      --danger: #E53935;
+      --success:#43A047;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', Arial, sans-serif; min-height: 100vh; }
 
-/* LOGIN */
-#login-screen{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  min-height:100vh;padding:24px;
-  background:radial-gradient(ellipse at top,#1a1400 0%,#0A0A0A 70%);
-}
-#login-screen img.login-logo{width:180px;margin-bottom:24px}
-#login-screen h1{font-size:1.4rem;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;text-align:center}
-#login-screen p.login-sub{color:var(--muted);font-size:.85rem;margin-bottom:28px;text-align:center}
-.role-btns{display:flex;gap:12px;margin-bottom:20px;width:100%;max-width:340px}
-.role-btn{
-  flex:1;padding:13px 16px;border-radius:10px;border:2px solid var(--border);
-  background:var(--card);color:var(--muted);font-size:.92rem;cursor:pointer;
-  transition:all .2s;text-align:center;font-weight:600;
-}
-.role-btn.active{border-color:var(--gold);color:var(--gold);background:#1e1600}
-.login-box{width:100%;max-width:340px;display:flex;flex-direction:column;gap:12px}
-.login-box input{
-  padding:14px 16px;border-radius:10px;border:1.5px solid var(--border);
-  background:var(--card2);color:var(--text);font-size:1rem;outline:none;
-  transition:.2s;width:100%;
-}
-.login-box input:focus{border-color:var(--gold)}
-.btn-gold{
-  padding:14px;border-radius:10px;border:none;
-  background:var(--gold);color:#0A0A0A;font-size:1rem;font-weight:700;
-  cursor:pointer;transition:background .2s;width:100%;
-}
-.btn-gold:hover{background:var(--gold-l)}
-.login-err{color:var(--red);font-size:.85rem;text-align:center;min-height:18px}
-.falcioni-footer{margin-top:36px;opacity:.3}
-.falcioni-footer img{height:24px}
-input[type=password],input[type=text],input[type=number]{
-  background:var(--card2);border:1.5px solid var(--border);border-radius:10px;
-  color:var(--text);font-size:15px;padding:12px 14px;width:100%;
-  outline:none;transition:.2s
-}
-input:focus{border-color:var(--gold)}
+    /* ── LOGIN ── */
+    #screen-login {
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 24px;
+      background: radial-gradient(ellipse at top, #1a1400 0%, #0A0A0A 70%);
+    }
+    #screen-login img.logo { width: 180px; margin-bottom: 28px; }
+    #screen-login h1 { font-size: 1.4rem; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+    #screen-login p.sub { color: var(--muted); font-size: .85rem; margin-bottom: 32px; }
+    .role-btns { display: flex; gap: 12px; margin-bottom: 24px; }
+    .role-btn {
+      flex: 1; padding: 14px 20px; border-radius: 10px; border: 2px solid var(--border);
+      background: var(--card); color: var(--muted); font-size: .95rem; cursor: pointer;
+      transition: all .2s; text-align: center; font-weight: 600;
+    }
+    .role-btn.active { border-color: var(--gold); color: var(--gold); background: #1e1600; }
+    .login-box { width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 12px; }
+    .login-box input {
+      padding: 14px 16px; border-radius: 10px; border: 1.5px solid var(--border);
+      background: var(--card2); color: var(--text); font-size: 1rem; outline: none;
+    }
+    .login-box input:focus { border-color: var(--gold); }
+    .btn-gold {
+      padding: 14px; border-radius: 10px; border: none;
+      background: var(--gold); color: #0A0A0A; font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: background .2s;
+    }
+    .btn-gold:hover { background: var(--gold-l); }
+    .login-err { color: var(--danger); font-size: .85rem; text-align: center; min-height: 18px; }
+    .falcioni-footer { margin-top: 40px; opacity: .35; }
+    .falcioni-footer img { height: 28px; }
 
-/* APP */
-#app{display:none;flex-direction:column;min-height:100vh}
-header{background:var(--card);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.header-left{display:flex;flex-direction:column}
-.header-title{font-size:17px;font-weight:700;color:#fff}
-.header-sub{font-size:12px;color:var(--muted)}
-.header-right{display:flex;align-items:center;gap:10px}
-.btn-lock{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);padding:6px 10px;cursor:pointer;font-size:16px;transition:.2s}
-.btn-lock:hover{border-color:var(--accent);color:var(--accent)}
-.btn-logout{background:none;border:none;color:var(--muted);cursor:pointer;font-size:22px;padding:4px}
-.btn-logout:hover{color:var(--red)}
+    /* ── LAYOUT ── */
+    #screen-arthur, #screen-cicero { display: none; flex-direction: column; min-height: 100vh; }
 
-/* MÊS HEADER */
-.mes-bar{background:var(--card2);border-bottom:1px solid var(--border);padding:8px 16px;display:flex;align-items:center;justify-content:space-between}
-.mes-nav{display:flex;align-items:center;gap:12px}
-.btn-mes{background:none;border:1px solid var(--border);border-radius:6px;color:var(--muted);padding:4px 10px;cursor:pointer;font-size:18px;transition:.2s}
-.btn-mes:hover{border-color:var(--accent);color:var(--accent)}
-.mes-label{font-size:15px;font-weight:600;color:#fff;min-width:130px;text-align:center}
+    /* Header */
+    .app-header {
+      position: sticky; top: 0; z-index: 100;
+      background: #0d0d0d; border-bottom: 1px solid var(--border);
+      padding: 10px 16px; display: flex; align-items: center; gap: 12px;
+    }
+    .app-header img.logo-h { height: 36px; }
+    .app-header .info { flex: 1; }
+    .app-header .info h2 { font-size: .95rem; color: var(--gold); }
+    .app-header .info span { font-size: .75rem; color: var(--muted); }
+    .mes-sel { display: flex; align-items: center; gap: 6px; }
+    .mes-sel select, .mes-sel input[type=number] {
+      background: var(--card); border: 1px solid var(--border); color: var(--text);
+      border-radius: 6px; padding: 5px 8px; font-size: .82rem;
+    }
+    .btn-logout {
+      background: none; border: 1px solid var(--border); color: var(--muted);
+      border-radius: 8px; padding: 6px 12px; cursor: pointer; font-size: .8rem;
+    }
+    .btn-logout:hover { border-color: var(--danger); color: var(--danger); }
+    .btn-lock {
+      background: none; border: 1px solid var(--border); color: var(--muted);
+      border-radius: 8px; padding: 6px 10px; cursor: pointer; font-size: 1rem; line-height: 1;
+      transition: all .2s;
+    }
+    .btn-lock.unlocked { border-color: var(--success); color: var(--success); }
 
-/* TABS */
-.tabs{display:flex;overflow-x:auto;background:var(--card);border-bottom:1px solid var(--border);scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab{flex:none;padding:12px 16px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:.2s}
-.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-.tab-content{display:none;padding:16px;flex:1}
-.tab-content.active{display:block}
+    /* Tabs */
+    .tabs { display: flex; background: var(--card); border-bottom: 1px solid var(--border); overflow-x: auto; }
+    .tab-btn {
+      flex: 1; min-width: 90px; padding: 12px 8px; border: none; background: none;
+      color: var(--muted); font-size: .82rem; cursor: pointer; border-bottom: 2px solid transparent;
+      transition: all .2s; white-space: nowrap;
+    }
+    .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .tab-content { display: none; padding: 16px; flex: 1; }
+    .tab-content.active { display: block; }
 
-/* CARDS INDICADOR */
-.ind-grid{display:flex;flex-direction:column;gap:12px}
-.ind-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
-.ind-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
-.ind-label{font-size:14px;font-weight:600;color:#fff;flex:1;margin-right:8px;line-height:1.3}
-.badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
-.badge-ouro{background:rgba(255,215,0,.15);color:var(--ouro);border:1px solid rgba(255,215,0,.3)}
-.badge-prata{background:rgba(168,169,173,.15);color:var(--prata);border:1px solid rgba(168,169,173,.3)}
-.badge-bronze{background:rgba(205,127,50,.15);color:var(--bronze);border:1px solid rgba(205,127,50,.3)}
-.badge-fora{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}
-.badge-nd{background:rgba(148,163,184,.1);color:var(--muted);border:1px solid var(--border)}
-.ind-valor{font-size:26px;font-weight:700;color:#fff;margin-bottom:4px}
-.ind-meta{font-size:12px;color:var(--muted)}
-.ind-bonif{font-size:13px;font-weight:600;margin-top:8px}
-.ind-bonif.bronze{color:var(--bronze)}
-.ind-bonif.prata{color:var(--prata)}
-.ind-bonif.ouro{color:var(--ouro)}
-.ind-bonif.nd{color:var(--muted)}
-.ind-bar-wrap{height:4px;background:var(--border);border-radius:2px;margin-top:10px;overflow:hidden}
-.ind-bar{height:100%;border-radius:2px;transition:width .6s}
-.bar-ouro{background:var(--ouro)}
-.bar-prata{background:var(--prata)}
-.bar-bronze{background:var(--bronze)}
-.bar-fora{background:var(--red)}
+    /* ── CARDS INDICADORES ── */
+    .indicadores-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+    .ind-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 14px 16px; position: relative; overflow: hidden;
+    }
+    .ind-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .ind-card.Ouro::before   { background: var(--ouro); }
+    .ind-card.Prata::before  { background: var(--prata); }
+    .ind-card.Bronze::before { background: var(--bronze); }
+    .ind-card.Fora::before   { background: var(--fora); }
+    .ind-card.sem-dado::before { background: var(--border); }
+    .ind-card .nome  { font-size: .82rem; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .5px; }
+    .ind-card .valor { font-size: 1.6rem; font-weight: 700; color: var(--text); }
+    .ind-card .nivel-row { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 3px 10px; border-radius: 20px; font-size: .78rem; font-weight: 700;
+    }
+    .badge.Ouro   { background: #332800; color: var(--ouro); }
+    .badge.Prata  { background: #222;    color: var(--prata); }
+    .badge.Bronze { background: #2a1800; color: var(--bronze); }
+    .badge.Fora, .badge.sem-dado { background: #1a1a1a; color: var(--muted); }
+    .bonif-val { font-size: .85rem; color: var(--gold); font-weight: 600; }
+    .meta-row  { font-size: .75rem; color: var(--muted); margin-top: 4px; }
 
-/* TOTAL BONIF */
-.bonif-total{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.bonif-total-label{font-size:14px;color:var(--muted)}
-.bonif-total-valor{font-size:22px;font-weight:700;color:var(--green)}
+    /* Total bonif */
+    .total-bonif {
+      margin-top: 16px; background: #1a1200; border: 1px solid var(--gold);
+      border-radius: 12px; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .total-bonif .label { color: var(--muted); font-size: .88rem; }
+    .total-bonif .valor { font-size: 1.6rem; font-weight: 700; color: var(--gold); }
 
-/* BOTÃO LANÇAR */
-.btn-lancar{width:100%;background:linear-gradient(135deg,var(--accent),#1d4ed8);color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s;margin-top:4px}
-.btn-lancar:active{transform:scale(.98)}
-.btn-lancar.cicero{background:linear-gradient(135deg,#8b5cf6,#6d28d9)}
+    /* Botão lançar */
+    .btn-lancar {
+      display: flex; align-items: center; gap: 8px; padding: 12px 20px;
+      background: var(--gold); color: #0A0A0A; border: none; border-radius: 10px;
+      font-size: .95rem; font-weight: 700; cursor: pointer; margin-bottom: 16px;
+    }
+    .btn-lancar:hover { background: var(--gold-l); }
 
-/* MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;align-items:flex-end;justify-content:center}
-.modal-overlay.open{display:flex}
-.modal{background:var(--card);border-radius:20px 20px 0 0;padding:24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto}
-.modal-title{font-size:18px;font-weight:700;margin-bottom:20px;color:#fff}
-.form-group{margin-bottom:16px}
-.form-label{font-size:13px;color:var(--muted);margin-bottom:6px;display:block;font-weight:500}
-.form-hint{font-size:11px;color:var(--muted);margin-top:4px;opacity:.7}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.btn-salvar{width:100%;background:linear-gradient(135deg,var(--accent),#1d4ed8);color:#fff;border:none;border-radius:10px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;transition:.2s;margin-top:4px}
-.btn-salvar.cicero{background:linear-gradient(135deg,#8b5cf6,#6d28d9)}
-.btn-cancelar{width:100%;background:none;border:1px solid var(--border);color:var(--muted);border-radius:10px;padding:11px;font-size:14px;cursor:pointer;margin-top:8px}
+    /* Section title */
+    .section-title {
+      font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px;
+      margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border);
+    }
 
-/* DASHBOARD */
-.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}
-.kpi-val{font-size:22px;font-weight:700;color:var(--green)}
-.kpi-val.blue{color:var(--accent)}
-.kpi-val.purple{color:#a78bfa}
-.kpi-val.yellow{color:var(--ouro)}
-.kpi-label{font-size:12px;color:var(--muted);margin-top:4px}
-.section-title{font-size:14px;font-weight:600;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em}
-.nivel-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.nivel-label{font-size:13px;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.nivel-badge{font-size:11px;padding:2px 8px;border-radius:12px;font-weight:700;white-space:nowrap}
-.placar{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px}
-.placar-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px}
-.placar-row:last-child{border-bottom:none;font-weight:600}
-.placar-key{color:var(--muted)}
-.placar-val{color:#fff}
+    /* ── MODAL ── */
+    .modal-bg {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,.85);
+      z-index: 999; align-items: center; justify-content: center; padding: 16px;
+    }
+    .modal-bg.open { display: flex; }
+    .modal {
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+      width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; padding: 24px;
+    }
+    .modal h3 { color: var(--gold); margin-bottom: 16px; font-size: 1.05rem; }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: .8rem; color: var(--muted); margin-bottom: 5px; }
+    .form-group input {
+      width: 100%; padding: 10px 12px; border-radius: 8px; border: 1.5px solid var(--border);
+      background: var(--card2); color: var(--text); font-size: .95rem; outline: none;
+    }
+    .form-group input:focus { border-color: var(--gold); }
+    .form-group .hint { font-size: .72rem; color: var(--muted); margin-top: 3px; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+    .btn-cancel {
+      flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border);
+      background: none; color: var(--muted); cursor: pointer; font-size: .9rem;
+    }
 
-/* HISTÓRICO */
-.hist-toggle{display:flex;background:var(--card2);border-radius:10px;padding:3px;margin-bottom:16px;gap:2px}
-.hist-btn{flex:1;padding:8px;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:none;color:var(--muted);transition:.2s}
-.hist-btn.active{background:var(--accent);color:#fff}
-.hist-table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px 8px;text-align:left;white-space:nowrap}
-td{padding:9px 8px;border-top:1px solid var(--border);color:var(--text)}
-tr:hover td{background:rgba(255,255,255,.03)}
-.hist-sel{display:flex;gap:10px;margin-bottom:14px}
-.hist-sel select{background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:7px 10px;font-size:14px;cursor:pointer}
+    /* ── HISTÓRICO ── */
+    .hist-table-wrap { overflow-x: auto; }
+    .hist-table { width: 100%; border-collapse: collapse; font-size: .8rem; min-width: 600px; }
+    .hist-table th { background: var(--card2); color: var(--muted); padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+    .hist-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); }
+    .hist-table tr:hover td { background: var(--card2); }
+    .hist-table .nivel { font-weight: 700; }
+    .hist-table .nivel.Ouro   { color: var(--ouro); }
+    .hist-table .nivel.Prata  { color: var(--prata); }
+    .hist-table .nivel.Bronze { color: var(--bronze); }
+    .hist-table .nivel.Fora   { color: var(--fora); }
+    .hist-toggle { display: flex; gap: 8px; padding: 12px 0 0; }
+    .htog-btn {
+      flex: 1; padding: 9px 12px; border-radius: 8px; border: 1.5px solid var(--border);
+      background: var(--card); color: var(--muted); font-size: .82rem; font-weight: 600;
+      cursor: pointer; transition: all .2s;
+    }
+    .htog-btn.active { border-color: var(--gold); color: var(--gold); background: #1e1600; }
+    .hist-diario-sel { display: flex; gap: 8px; align-items: center; padding: 10px 0 0; }
+    .hist-diario-sel select, .hist-diario-sel input {
+      padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--border);
+      background: var(--card2); color: var(--text); font-size: .85rem; outline: none;
+    }
+    .hist-diario-sel select:focus, .hist-diario-sel input:focus { border-color: var(--gold); }
 
-/* CONFIG */
-.config-section{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px}
-.config-section h3{font-size:14px;font-weight:600;color:var(--muted);margin-bottom:14px;text-transform:uppercase;letter-spacing:.05em}
-.config-row{margin-bottom:12px}
-.config-row label{font-size:13px;color:var(--text);display:block;margin-bottom:5px}
-.btn-config{background:var(--accent);border:none;border-radius:8px;color:#fff;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:.2s}
-.btn-config:hover{background:#2563eb}
-.btn-config.danger{background:var(--red)}
-.api-url{font-size:11px;word-break:break-all;color:var(--muted);background:#0f172a;padding:8px;border-radius:6px;margin-top:6px;user-select:all}
-.meta-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.meta-grid label{font-size:11px;color:var(--muted);display:block;margin-bottom:3px}
+    /* ── DASHBOARD ── */
+    .dash-kpis { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 12px; margin-bottom: 20px; }
+    .dash-kpi { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; text-align: center; }
+    .dash-kpi .dk-label { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+    .dash-kpi .dk-val   { font-size: 1.5rem; font-weight: 700; color: var(--gold); }
+    .dash-kpi .dk-sub   { font-size: .72rem; color: var(--muted); margin-top: 3px; }
+    .dash-section { margin-bottom: 24px; }
+    .dash-section h4 { font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+    .nivel-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .nivel-bar-row .nb-label { width: 180px; font-size: .8rem; color: var(--muted); flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .nivel-bar-row .nb-track { flex: 1; height: 22px; background: var(--card2); border-radius: 4px; overflow: hidden; }
+    .nivel-bar-row .nb-fill  { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: .75rem; font-weight: 700; transition: width .5s; min-width: 40px; }
+    .nb-fill.Ouro   { background: #332800; color: var(--ouro);   border: 1px solid var(--ouro); }
+    .nb-fill.Prata  { background: #222;    color: var(--prata);  border: 1px solid var(--prata); }
+    .nb-fill.Bronze { background: #2a1800; color: var(--bronze); border: 1px solid var(--bronze); }
+    .nb-fill.Fora, .nb-fill.sem-dado { background: #1a1a1a; color: var(--muted); border: 1px solid var(--border); }
+    .placar-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+    .placar-card { background: var(--card); border-radius: 10px; padding: 12px; text-align: center; border: 1px solid var(--border); }
+    .placar-card .pc-num { font-size: 1.8rem; font-weight: 700; }
+    .placar-card .pc-lbl { font-size: .72rem; color: var(--muted); }
+    .placar-card.ouro   .pc-num { color: var(--ouro); }
+    .placar-card.prata  .pc-num { color: var(--prata); }
+    .placar-card.bronze .pc-num { color: var(--bronze); }
+    .placar-card.fora   .pc-num { color: var(--fora); }
+    .chart-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; overflow-x: auto; }
 
-/* ABA CÍCERO no Arthur */
-.cicero-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:12px;background:var(--card2);border-radius:10px}
-.cicero-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff}
+    /* ── RANKING AUXILIAR ── */
+    .rank-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; }
+    .rank-card .rc-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .rank-card .rc-nome   { font-size: .95rem; font-weight: 700; color: var(--gold); }
+    .rank-card .rc-bonif  { font-size: .88rem; color: var(--gold); font-weight: 600; }
+    .rank-card .rc-semlanc { font-size: .8rem; color: var(--muted); font-style: italic; }
+    .rank-card .rc-inds { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
+    .rc-ind { background: var(--card2); border-radius: 8px; padding: 8px 10px; }
+    .rc-ind .ri-label { font-size: .7rem; color: var(--muted); margin-bottom: 3px; text-transform: uppercase; letter-spacing: .3px; }
+    .rc-ind .ri-val   { font-size: .95rem; font-weight: 700; }
+    .rc-ind .ri-badge { font-size: .72rem; margin-top: 2px; color: var(--muted); }
 
-/* SVG GRÁFICO */
-.grafico-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px;overflow-x:auto}
-.grafico-title{font-size:13px;font-weight:600;color:var(--muted);margin-bottom:12px}
-.grafico-legenda{display:flex;gap:16px;margin-top:8px;font-size:12px;flex-wrap:wrap}
-.legenda-item{display:flex;align-items:center;gap:5px;color:var(--muted)}
-.legenda-cor{width:12px;height:3px;border-radius:2px}
+    /* ── CONFIG ── */
+    .config-section { margin-bottom: 24px; }
+    .config-section h4 { color: var(--gold); font-size: .9rem; margin-bottom: 12px; }
+    .config-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+    .config-row label { font-size: .75rem; color: var(--muted); display: block; margin-bottom: 3px; }
+    .config-row input {
+      width: 100%; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border);
+      background: var(--card2); color: var(--text); font-size: .85rem; outline: none;
+    }
+    .api-box {
+      background: var(--card2); border: 1px solid var(--border); border-radius: 8px;
+      padding: 12px 14px; font-size: .78rem; color: var(--muted); word-break: break-all; margin-bottom: 8px;
+    }
+    .btn-copy { padding: 8px 16px; border-radius: 6px; border: 1px solid var(--gold); background: none; color: var(--gold); cursor: pointer; font-size: .82rem; }
 
-/* TOAST */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:#1e293b;border:1px solid var(--border);border-radius:10px;padding:12px 20px;font-size:14px;font-weight:500;color:#fff;z-index:300;transition:.3s;pointer-events:none;white-space:nowrap}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.toast.success{border-color:var(--green);color:var(--green)}
-.toast.error{border-color:var(--red);color:var(--red)}
-
-/* LOADING */
-.loading{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--muted);gap:10px}
-.spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* EMPTY */
-.empty{text-align:center;padding:40px 20px;color:var(--muted)}
-.empty-icon{font-size:36px;margin-bottom:8px}
-
-/* MODAL SENHA */
-.modal-senha{max-width:320px;margin:auto;border-radius:16px;top:50%;transform:translateY(-50%);position:relative}
-</style>
+    /* Loading / Toast */
+    .loading { text-align: center; padding: 40px; color: var(--muted); }
+    .spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 12px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--card2); border: 1px solid var(--gold); color: var(--text); padding: 10px 20px; border-radius: 8px; font-size: .88rem; opacity: 0; transition: opacity .3s; z-index: 9999; pointer-events: none; }
+    #toast.show { opacity: 1; }
+    .lancamentos-dia { margin-bottom: 16px; font-size: .8rem; color: var(--muted); }
+    .lancamentos-dia span { color: var(--gold); font-weight: 600; }
+  </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="login-screen">
-  <img src="logo-jr.png" class="login-logo" alt="JR Joias"/>
-  <h1>JR Cadastro</h1>
-  <p class="login-sub">Indicadores de Desempenho</p>
+<!-- ── LOGIN ── -->
+<div id="screen-login">
+  <img class="logo" src="logo-jr.png" alt="JR Joias" onerror="this.style.display='none'">
+  <h1>Sistema de Indicadores</h1>
+  <p class="sub">Setor Cadastro</p>
   <div class="role-btns">
-    <button class="role-btn active" id="role-arthur" onclick="selecionarRole('arthur')">📊 Arthur</button>
-    <button class="role-btn" id="role-cicero" onclick="selecionarRole('cicero')">🔧 Cícero</button>
+    <div class="role-btn active" data-role="arthur" onclick="selRole('arthur')">📊 Arthur</div>
+    <div class="role-btn" data-role="cicero" onclick="selRole('cicero')">🔧 Cícero</div>
   </div>
   <div class="login-box">
-    <input type="password" id="login-senha" placeholder="Digite a senha..." onkeydown="if(event.key==='Enter')tentarLogin()"/>
-    <button class="btn-gold" onclick="tentarLogin()">Entrar</button>
-    <div class="login-err" id="login-erro"></div>
+    <input type="password" id="inp-senha" placeholder="Senha" onkeydown="if(event.key==='Enter')login()">
+    <button class="btn-gold" onclick="login()">Entrar</button>
+    <div class="login-err" id="login-err"></div>
   </div>
   <div class="falcioni-footer">
-    <img src="jr.png" alt="JR"/>
+    <img src="Falcioni.jpg" alt="Falcioni" onerror="this.style.display='none'">
   </div>
 </div>
 
-<!-- APP -->
-<div id="app">
-  <header>
-    <div class="header-left">
-      <div class="header-title" id="header-title">JR Cadastro</div>
-      <div class="header-sub" id="header-sub">Indicadores</div>
+<!-- ── TELA ARTHUR (SUPERVISOR) ── -->
+<div id="screen-arthur">
+  <div class="app-header">
+    <img class="logo-h" src="logo-jr.png" alt="JR" onerror="this.style.display='none'">
+    <div class="info">
+      <h2>Setor Cadastro</h2>
+      <span>Supervisor Arthur</span>
     </div>
-    <div class="header-right">
-      <button class="btn-lock" id="btn-lock" onclick="toggleLock()">🔒</button>
-      <button class="btn-logout" onclick="logout()" title="Sair">⏻</button>
+    <div class="mes-sel">
+      <select id="ar-mes" onchange="carregarDadosArthur()">
+        <option value="1">Jan</option><option value="2">Fev</option><option value="3">Mar</option>
+        <option value="4">Abr</option><option value="5">Mai</option><option value="6">Jun</option>
+        <option value="7">Jul</option><option value="8">Ago</option><option value="9">Set</option>
+        <option value="10">Out</option><option value="11">Nov</option><option value="12">Dez</option>
+      </select>
+      <input type="number" id="ar-ano" value="2026" min="2024" max="2030" onchange="carregarDadosArthur()" style="width:64px">
     </div>
-  </header>
-
-  <div class="mes-bar">
-    <div class="mes-nav">
-      <button class="btn-mes" onclick="mudarMes(-1)">‹</button>
-      <span class="mes-label" id="mes-label">–</span>
-      <button class="btn-mes" onclick="mudarMes(1)">›</button>
-    </div>
-    <div style="font-size:12px;color:var(--muted)" id="header-ano"></div>
+    <button class="btn-lock" id="ar-lock-btn" onclick="toggleAdmin()" title="Revelar/ocultar valores">🔒</button>
+    <button class="btn-logout" onclick="logout()">Sair</button>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('ar','indicadores',this)">📊 Indicadores</button>
+    <button class="tab-btn" onclick="showTab('ar','dashboard',this)">📈 Dashboard</button>
+    <button class="tab-btn" onclick="showTab('ar','auxiliar-view',this)">🔧 Auxiliar</button>
+    <button class="tab-btn" onclick="showTab('ar','historico',this)">📅 Histórico</button>
+    <button class="tab-btn" onclick="showTab('ar','config',this)">⚙️ Config</button>
   </div>
 
-  <div class="tabs" id="tabs-bar"></div>
+  <!-- Tab Indicadores -->
+  <div id="ar-tab-indicadores" class="tab-content active">
+    <button class="btn-lancar" onclick="abrirModalArthur()">＋ Lançar Hoje</button>
+    <div class="lancamentos-dia" id="ar-lanc-hoje"></div>
+    <div id="ar-loading" class="loading"><div class="spinner"></div>Carregando...</div>
+    <div id="ar-cards" class="indicadores-grid" style="display:none"></div>
+    <div id="ar-total" class="total-bonif" style="display:none">
+      <span class="label">💰 Bonificação Total (Mês)</span>
+      <span class="valor" id="ar-total-val">R$ 0,00</span>
+    </div>
+  </div>
 
-  <div id="tabs-content" style="flex:1;display:flex;flex-direction:column"></div>
+  <!-- Tab Dashboard -->
+  <div id="ar-tab-dashboard" class="tab-content">
+    <div class="dash-kpis">
+      <div class="dash-kpi"><div class="dk-label">Bonif. Arthur</div><div class="dk-val" id="dk-ar">—</div><div class="dk-sub">mês atual</div></div>
+      <div class="dash-kpi"><div class="dk-label">Bonif. Cícero</div><div class="dk-val" id="dk-ci">—</div><div class="dk-sub">mês atual</div></div>
+      <div class="dash-kpi"><div class="dk-label">Total Pago</div><div class="dk-val" id="dk-total">—</div><div class="dk-sub">supervisor + auxiliar</div></div>
+      <div class="dash-kpi"><div class="dk-label">Indicadores Ouro</div><div class="dk-val" id="dk-ouro" style="color:var(--ouro)">—</div><div class="dk-sub">de 14 totais</div></div>
+    </div>
+    <div class="dash-section">
+      <h4>🏅 Status dos Indicadores — Arthur</h4>
+      <div id="dash-bars-ar"></div>
+    </div>
+    <div class="dash-section">
+      <h4>🏅 Status dos Indicadores — Cícero</h4>
+      <div id="dash-bars-ci"></div>
+    </div>
+    <div class="dash-section">
+      <h4>🥇 Placar de Níveis — Arthur (mês)</h4>
+      <div class="placar-grid" id="dash-placar-ar"></div>
+    </div>
+    <div class="dash-section">
+      <h4>📈 Evolução da Bonificação — Ano</h4>
+      <div class="chart-wrap">
+        <svg id="dash-chart" width="100%" height="180" viewBox="0 0 700 180"></svg>
+      </div>
+      <div id="dash-chart-legend" style="display:flex;gap:16px;margin-top:8px;font-size:.75rem;color:var(--muted)"></div>
+    </div>
+  </div>
+
+  <!-- Tab Auxiliar (Cícero) -->
+  <div id="ar-tab-auxiliar-view" class="tab-content">
+    <p class="section-title">Ranking Auxiliares — Mês Selecionado</p>
+    <div id="ga-loading" class="loading"><div class="spinner"></div>Carregando...</div>
+    <div id="ga-ranking"></div>
+    <div id="ga-total" class="total-bonif" style="display:none">
+      <span class="label">💰 Bonificação Total Auxiliar (Mês)</span>
+      <span class="valor" id="ga-total-val">R$ 0,00</span>
+    </div>
+  </div>
+
+  <!-- Tab Histórico Arthur -->
+  <div id="ar-tab-historico" class="tab-content">
+    <p class="section-title">Histórico — Arthur</p>
+    <div class="hist-toggle">
+      <button class="htog-btn active" onclick="switchHistMode('ar','mensal',this)">📅 Mensal</button>
+      <button class="htog-btn" onclick="switchHistMode('ar','diario',this)">📋 Diário</button>
+    </div>
+    <div id="ar-hist-mensal" style="padding-top:12px">
+      <div class="hist-table-wrap">
+        <table class="hist-table">
+          <thead><tr>
+            <th>Mês</th><th>Erro Cad.</th><th>Cad.Real.%</th><th>Inovação</th>
+            <th>Pl.Desenv.%</th><th>Checklist%</th><th>Ocorrência</th><th>Prazo(h)</th><th>Bonif.</th>
+          </tr></thead>
+          <tbody id="ar-hist-body"><tr><td colspan="9" style="color:var(--muted);text-align:center;padding:20px">Carregando...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="ar-hist-diario" style="display:none">
+      <div class="hist-diario-sel">
+        <select id="ar-hist-mes" onchange="renderDiarioArthur()">
+          <option value="1">Janeiro</option><option value="2">Fevereiro</option><option value="3">Março</option>
+          <option value="4">Abril</option><option value="5">Maio</option><option value="6">Junho</option>
+          <option value="7">Julho</option><option value="8">Agosto</option><option value="9">Setembro</option>
+          <option value="10">Outubro</option><option value="11">Novembro</option><option value="12">Dezembro</option>
+        </select>
+        <input type="number" id="ar-hist-ano" value="2026" min="2024" max="2030" onchange="renderDiarioArthur()" style="width:72px">
+      </div>
+      <div class="hist-table-wrap" style="padding-top:10px">
+        <table class="hist-table">
+          <thead><tr>
+            <th>Data</th><th>Erro Cad.</th><th>Cad.Real.%</th><th>Inovação</th>
+            <th>Pl.Desenv.%</th><th>Checklist%</th><th>Ocorrência</th><th>Prazo(h)</th>
+          </tr></thead>
+          <tbody id="ar-hist-diario-body"><tr><td colspan="8" style="color:var(--muted);text-align:center;padding:20px">Selecione o mês</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab Config -->
+  <div id="ar-tab-config" class="tab-content">
+    <div class="config-section">
+      <h4>🔑 Senhas</h4>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+        <div class="form-group"><label>Nova senha — Arthur</label><input type="password" id="nova-senha-ar" placeholder="••••••"></div>
+        <div class="form-group"><label>Nova senha — Cícero</label><input type="password" id="nova-senha-ci" placeholder="••••••"></div>
+        <div class="form-group"><label>Nova senha — Admin 🔒</label><input type="password" id="nova-senha-admin" placeholder="••••••"></div>
+      </div>
+      <button class="btn-gold" onclick="salvarSenhas()" style="padding:10px 20px;font-size:.85rem">Salvar Senhas</button>
+    </div>
+    <div class="config-section">
+      <h4>🎯 Metas — Arthur</h4>
+      <div id="config-metas-ar"></div>
+      <button class="btn-gold" onclick="salvarMetasArthur()" style="padding:10px 20px;font-size:.85rem;margin-top:8px">Salvar Metas Arthur</button>
+    </div>
+    <div class="config-section">
+      <h4>🎯 Metas — Cícero</h4>
+      <div id="config-metas-ci"></div>
+      <button class="btn-gold" onclick="salvarMetasCicero()" style="padding:10px 20px;font-size:.85rem;margin-top:8px">Salvar Metas Cícero</button>
+    </div>
+    <div class="config-section">
+      <h4>🔗 API Power BI</h4>
+      <p style="font-size:.8rem;color:var(--muted);margin-bottom:10px">Use estas URLs no Power BI (Web Connector):</p>
+      <div>
+        <p style="font-size:.75rem;color:var(--gold);margin-bottom:4px">Lançamentos Arthur:</p>
+        <div class="api-box" id="api-url-ar"></div>
+        <button class="btn-copy" onclick="copiarApi('ar')">Copiar</button>
+      </div>
+      <div style="margin-top:12px">
+        <p style="font-size:.75rem;color:var(--gold);margin-bottom:4px">Lançamentos Cícero:</p>
+        <div class="api-box" id="api-url-ci"></div>
+        <button class="btn-copy" onclick="copiarApi('ci')">Copiar</button>
+      </div>
+    </div>
+    <div class="falcioni-footer" style="text-align:center;margin-top:24px;opacity:.3">
+      <img src="Falcioni.jpg" alt="Falcioni" style="height:24px" onerror="this.style.display='none'">
+    </div>
+  </div>
 </div>
 
-<!-- MODAL LANÇAMENTO ARTHUR -->
-<div class="modal-overlay" id="modal-arthur">
+<!-- ── TELA CÍCERO (AUXILIAR) ── -->
+<div id="screen-cicero">
+  <div class="app-header">
+    <img class="logo-h" src="logo-jr.png" alt="JR" onerror="this.style.display='none'">
+    <div class="info">
+      <h2>Setor Cadastro</h2>
+      <span>Auxiliar Cícero</span>
+    </div>
+    <div class="mes-sel">
+      <select id="ci-mes" onchange="carregarDadosCicero()">
+        <option value="1">Jan</option><option value="2">Fev</option><option value="3">Mar</option>
+        <option value="4">Abr</option><option value="5">Mai</option><option value="6">Jun</option>
+        <option value="7">Jul</option><option value="8">Ago</option><option value="9">Set</option>
+        <option value="10">Out</option><option value="11">Nov</option><option value="12">Dez</option>
+      </select>
+      <input type="number" id="ci-ano" value="2026" min="2024" max="2030" onchange="carregarDadosCicero()" style="width:64px">
+    </div>
+    <button class="btn-lock" id="ci-lock-btn" onclick="toggleAdmin()" title="Revelar/ocultar valores">🔒</button>
+    <button class="btn-logout" onclick="logout()">Sair</button>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('ci','indicadores',this)">📊 Indicadores</button>
+    <button class="tab-btn" onclick="showTab('ci','historico',this)">📅 Histórico</button>
+  </div>
+
+  <!-- Tab Indicadores Cícero -->
+  <div id="ci-tab-indicadores" class="tab-content active">
+    <button class="btn-lancar" onclick="abrirModalCicero()">＋ Lançar Hoje</button>
+    <div class="lancamentos-dia" id="ci-lanc-hoje"></div>
+    <div id="ci-loading" class="loading"><div class="spinner"></div>Carregando...</div>
+    <div id="ci-cards" class="indicadores-grid" style="display:none"></div>
+    <div id="ci-total" class="total-bonif" style="display:none">
+      <span class="label">💰 Minha Bonificação (Mês)</span>
+      <span class="valor" id="ci-total-val">R$ 0,00</span>
+    </div>
+    <div class="falcioni-footer" style="text-align:center;margin-top:32px;opacity:.3">
+      <img src="Falcioni.jpg" alt="Falcioni" style="height:24px" onerror="this.style.display='none'">
+    </div>
+  </div>
+
+  <!-- Tab Histórico Cícero -->
+  <div id="ci-tab-historico" class="tab-content">
+    <p class="section-title">Histórico — Cícero</p>
+    <div class="hist-toggle">
+      <button class="htog-btn active" onclick="switchHistMode('ci','mensal',this)">📅 Mensal</button>
+      <button class="htog-btn" onclick="switchHistMode('ci','diario',this)">📋 Diário</button>
+    </div>
+    <div id="ci-hist-mensal" style="padding-top:12px">
+      <div class="hist-table-wrap">
+        <table class="hist-table">
+          <thead><tr>
+            <th>Mês</th><th>Atualiz.%</th><th>Tempo(h)</th><th>Erro Img.%</th>
+            <th>OS Exec.%</th><th>Inovação</th><th>Manut.TI%</th><th>Banco D.%</th><th>Bonif.</th>
+          </tr></thead>
+          <tbody id="ci-hist-body"><tr><td colspan="9" style="color:var(--muted);text-align:center;padding:20px">Carregando...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="ci-hist-diario" style="display:none">
+      <div class="hist-diario-sel">
+        <select id="ci-hist-mes" onchange="renderDiarioCicero()">
+          <option value="1">Janeiro</option><option value="2">Fevereiro</option><option value="3">Março</option>
+          <option value="4">Abril</option><option value="5">Maio</option><option value="6">Junho</option>
+          <option value="7">Julho</option><option value="8">Agosto</option><option value="9">Setembro</option>
+          <option value="10">Outubro</option><option value="11">Novembro</option><option value="12">Dezembro</option>
+        </select>
+        <input type="number" id="ci-hist-ano" value="2026" min="2024" max="2030" onchange="renderDiarioCicero()" style="width:72px">
+      </div>
+      <div class="hist-table-wrap" style="padding-top:10px">
+        <table class="hist-table">
+          <thead><tr>
+            <th>Data</th><th>Atualiz.%</th><th>Tempo(h)</th><th>Erro Img.%</th>
+            <th>OS Exec.%</th><th>Inovação</th><th>Manut.TI%</th><th>Banco D.%</th>
+          </tr></thead>
+          <tbody id="ci-hist-diario-body"><tr><td colspan="8" style="color:var(--muted);text-align:center;padding:20px">Selecione o mês</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL LANÇAMENTO ARTHUR ── -->
+<div class="modal-bg" id="modal-arthur">
   <div class="modal">
-    <div class="modal-title">📊 Lançar Indicadores — Arthur</div>
-    <div id="form-arthur"></div>
-    <button class="btn-salvar" onclick="salvarLancamento('arthur')">💾 Salvar</button>
-    <button class="btn-cancelar" onclick="fecharModal('arthur')">Cancelar</button>
-  </div>
-</div>
-
-<!-- MODAL LANÇAMENTO CÍCERO -->
-<div class="modal-overlay" id="modal-cicero">
-  <div class="modal">
-    <div class="modal-title">🔧 Lançar Indicadores — Cícero</div>
-    <div id="form-cicero"></div>
-    <button class="btn-salvar cicero" onclick="salvarLancamento('cicero')">💾 Salvar</button>
-    <button class="btn-cancelar" onclick="fecharModal('cicero')">Cancelar</button>
-  </div>
-</div>
-
-<!-- MODAL SENHA LOCK -->
-<div class="modal-overlay" id="modal-lock">
-  <div class="modal modal-senha">
-    <div class="modal-title">🔒 Senha Admin</div>
+    <h3>📋 Lançar Indicadores — Arthur</h3>
+    <div class="form-group"><label>Data do Lançamento</label><input type="date" id="ar-data"></div>
     <div class="form-group">
-      <input type="password" id="lock-senha" placeholder="Senha admin..." onkeydown="if(event.key==='Enter')confirmarLock()"/>
+      <label>Erro de Cadastro (nº ocorrências)</label>
+      <input type="number" id="ar-erro_cadastro" placeholder="Ex: 1" min="0">
+      <span class="hint">Ouro = 0 · Prata ≤2 · Bronze ≤3</span>
     </div>
-    <button class="btn-salvar" onclick="confirmarLock()">Confirmar</button>
-    <button class="btn-cancelar" onclick="fecharModal('lock')">Cancelar</button>
+    <div class="form-group">
+      <label>Cadastros Realizados (%)</label>
+      <input type="number" id="ar-cadastros_realiz" placeholder="Ex: 95" min="0" max="100" step="0.1">
+      <span class="hint">Bronze ≥90% · Prata ≥95% · Ouro = 100%</span>
+    </div>
+    <div class="form-group">
+      <label>Inovação e Criatividade (pontos)</label>
+      <input type="number" id="ar-inovacao" placeholder="Ex: 3" min="0">
+      <span class="hint">Bronze ≥2 · Prata ≥3 · Ouro ≥4</span>
+    </div>
+    <div class="form-group">
+      <label>Plano Desenvolvimento e Talentos (%)</label>
+      <input type="number" id="ar-plano_desenv" placeholder="Ex: 90" min="0" max="100" step="0.1">
+      <span class="hint">Bronze ≥85% · Prata ≥90% · Ouro = 100%</span>
+    </div>
+    <div class="form-group">
+      <label>Checklist de Rotina (%)</label>
+      <input type="number" id="ar-checklist" placeholder="Ex: 90" min="0" max="100" step="0.1">
+      <span class="hint">Bronze ≥85% · Prata ≥90% · Ouro = 100%</span>
+    </div>
+    <div class="form-group">
+      <label>Ocorrência (nº ocorrências)</label>
+      <input type="number" id="ar-ocorrencia" placeholder="Ex: 1" min="0">
+      <span class="hint">Ouro = 0 · Prata ≤2 · Bronze ≤3</span>
+    </div>
+    <div class="form-group">
+      <label>Prazo Médio de Cadastro (horas)</label>
+      <input type="number" id="ar-prazo_cadastro" placeholder="Ex: 20" min="0" step="0.5">
+      <span class="hint">Bronze ≤48h · Prata ≤24h · Ouro ≤12h</span>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="fecharModais()">Cancelar</button>
+      <button class="btn-gold" style="flex:1" onclick="salvarArthur()">Salvar</button>
+    </div>
   </div>
 </div>
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
+<!-- ── MODAL LANÇAMENTO CÍCERO ── -->
+<div class="modal-bg" id="modal-cicero">
+  <div class="modal">
+    <h3>📋 Lançar Indicadores — Cícero</h3>
+    <div class="form-group"><label>Data do Lançamento</label><input type="date" id="ci-data"></div>
+    <div class="form-group">
+      <label>Atualização de Cadastros (%)</label>
+      <input type="number" id="ci-atualizacao_cad" placeholder="Ex: 92" min="0" max="100" step="0.1">
+      <span class="hint">Bronze ≥90% · Prata ≥95% · Ouro = 100%</span>
+    </div>
+    <div class="form-group">
+      <label>Tempo Médio de Atualização (horas)</label>
+      <input type="number" id="ci-tempo_atualizacao" placeholder="Ex: 30" min="0" step="0.5">
+      <span class="hint">Bronze ≤48h · Prata ≤36h · Ouro ≤24h</span>
+    </div>
+    <div class="form-group">
+      <label>Índice de Erro de Imagem/Falta (%)</label>
+      <input type="number" id="ci-erro_imagem" placeholder="Ex: 1.5" min="0" max="100" step="0.1">
+      <span class="hint">Ouro = 0% · Prata ≤2% · Bronze ≤3%</span>
+    </div>
+    <div class="form-group">
+      <label>Planejado x Executados — OS (%)</label>
+      <input type="number" id="ci-os_executadas" placeholder="Ex: 95" min="0" max="100" step="0.1">
+      <span class="hint">Bronze ≥90% · Prata ≥95% · Ouro = 100%</span>
+    </div>
+    <div class="form-group">
+      <label>Inovação e Criatividade (pontos)</label>
+      <input type="number" id="ci-inovacao" placeholder="Ex: 3" min="0">
+      <span class="hint">Bronze ≥2 · Prata ≥3 · Ouro ≥4</span>
+    </div>
+    <div class="form-group">
+      <label>Manutenção Preventiva de TI (%)</label>
+      <input type="number" id="ci-manutencao_ti" placeholder="Ex: 95" min="0" max="100" step="0.1">
+      <span class="hint">Bronze ≥90% · Prata ≥95% · Ouro = 100%</span>
+    </div>
+    <div class="form-group">
+      <label>Atualização do Banco de Dados (%)</label>
+      <input type="number" id="ci-banco_dados" placeholder="Ex: 92" min="0" max="100" step="0.1">
+      <span class="hint">Bronze ≥90% · Prata ≥95% · Ouro = 100%</span>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="fecharModais()">Cancelar</button>
+      <button class="btn-gold" style="flex:1" onclick="salvarCicero()">Salvar</button>
+    </div>
+  </div>
+</div>
 
-<!-- FIREBASE -->
+<!-- ── MODAL ADMIN ── -->
+<div class="modal-bg" id="modal-admin">
+  <div class="modal" style="max-width:320px">
+    <h3>🔑 Acesso Administrativo</h3>
+    <p style="font-size:.82rem;color:var(--muted);margin-bottom:16px">Digite a senha para revelar os valores de bonificação.</p>
+    <div class="form-group">
+      <input type="password" id="admin-senha" placeholder="Senha admin" onkeydown="if(event.key==='Enter')confirmarAdmin()">
+    </div>
+    <div class="login-err" id="admin-err"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="fecharModais()">Cancelar</button>
+      <button class="btn-gold" style="flex:1" onclick="confirmarAdmin()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- ── FIREBASE ── -->
 <script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getFirestore, doc, getDoc, setDoc, collection, getDocs, query, where, orderBy, addDoc, updateDoc }
-  from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, collection, addDoc, getDocs, query, where,
+         doc, setDoc, getDoc, orderBy }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-// ── CONFIG ──────────────────────────────────────────────────────────────────
 const firebaseConfig = {
-  apiKey: "AIzaSyDTqmtUcFa2EZTD304RYb_vb6BLvo9PknQ",
-  authDomain: "jr-banho.firebaseapp.com",
-  projectId: "jr-banho",
-  storageBucket: "jr-banho.firebasestorage.app",
+  apiKey:            "AIzaSyDTqmtUcFa2EZTD304RYb_vb6BLvo9PknQ",
+  authDomain:        "jr-banho.firebaseapp.com",
+  projectId:         "jr-banho",
+  storageBucket:     "jr-banho.firebasestorage.app",
   messagingSenderId: "56470186011",
-  appId: "1:56470186011:web:8853cada4d8b179868b0be"
+  appId:             "1:56470186011:web:8853cada4d8b179868b0be"
 };
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const fbApp = initializeApp(firebaseConfig);
+const db = getFirestore(fbApp);
 
-// ── METAS ────────────────────────────────────────────────────────────────────
-const METAS_ARTHUR_PADRAO = [
-  { chave:'erro_cadastro',   label:'Erro de Cadastro (oc)',                tipo:'menor', unidade:'oc', bronze:3,  prata:2,  ouro:0,   bonif:{bronze:10.71,prata:12.86,ouro:21.43} },
-  { chave:'cadastros_realiz',label:'Cadastros Realizados (%)',             tipo:'maior', unidade:'%',  bronze:90, prata:95, ouro:100, bonif:{bronze:10.71,prata:12.86,ouro:21.43} },
-  { chave:'inovacao',        label:'Inovação e Criatividade (pt)',         tipo:'maior', unidade:'pt', bronze:2,  prata:3,  ouro:4,   bonif:{bronze:10.71,prata:12.86,ouro:21.43} },
-  { chave:'plano_desenv',    label:'Plano Desenvolvimento e Talentos (%)',tipo:'maior', unidade:'%',  bronze:85, prata:90, ouro:100, bonif:{bronze:10.71,prata:12.86,ouro:21.43} },
-  { chave:'checklist',       label:'Checklist de Rotina (%)',              tipo:'maior', unidade:'%',  bronze:85, prata:90, ouro:100, bonif:{bronze:10.71,prata:12.86,ouro:21.43} },
-  { chave:'ocorrencia',      label:'Ocorrência (oc)',                      tipo:'menor', unidade:'oc', bronze:3,  prata:2,  ouro:0,   bonif:{bronze:10.71,prata:12.86,ouro:21.43} },
-  { chave:'prazo_cadastro',  label:'Prazo Médio de Cadastro (h)',          tipo:'menor', unidade:'h',  bronze:48, prata:24, ouro:12,  bonif:{bronze:10.71,prata:12.86,ouro:21.43} },
-];
+// ── METAS PADRÃO ──
+const METAS_AR_PADRAO = {
+  erro_cadastro:   { label:'Erro de Cadastro',               tipo:'menor', bronze:3,  prata:2,  ouro:0,   bonif:{bronze:10.71,prata:12.86,ouro:21.43}, agg:'sum', unit:'oc' },
+  cadastros_realiz:{ label:'Cadastros Realizados',           tipo:'maior', bronze:90, prata:95, ouro:100, bonif:{bronze:10.71,prata:12.86,ouro:21.43}, agg:'avg', unit:'%'  },
+  inovacao:        { label:'Inovação e Criatividade',        tipo:'maior', bronze:2,  prata:3,  ouro:4,   bonif:{bronze:10.71,prata:12.86,ouro:21.43}, agg:'sum', unit:'pt' },
+  plano_desenv:    { label:'Pl. Desenvolvimento e Talentos', tipo:'maior', bronze:85, prata:90, ouro:100, bonif:{bronze:10.71,prata:12.86,ouro:21.43}, agg:'avg', unit:'%'  },
+  checklist:       { label:'Checklist de Rotina',            tipo:'maior', bronze:85, prata:90, ouro:100, bonif:{bronze:10.71,prata:12.86,ouro:21.43}, agg:'avg', unit:'%'  },
+  ocorrencia:      { label:'Ocorrência',                     tipo:'menor', bronze:3,  prata:2,  ouro:0,   bonif:{bronze:10.71,prata:12.86,ouro:21.43}, agg:'sum', unit:'oc' },
+  prazo_cadastro:  { label:'Prazo Médio de Cadastro',        tipo:'menor', bronze:48, prata:24, ouro:12,  bonif:{bronze:10.71,prata:12.86,ouro:21.43}, agg:'avg', unit:'h'  },
+};
+const METAS_CI_PADRAO = {
+  atualizacao_cad: { label:'Atualização de Cadastros',       tipo:'maior', bronze:90, prata:95, ouro:100, bonif:{bronze:7.14,prata:10,ouro:14.29}, agg:'avg', unit:'%' },
+  tempo_atualizacao:{label:'Tempo Médio de Atualização',     tipo:'menor', bronze:48, prata:36, ouro:24,  bonif:{bronze:7.14,prata:10,ouro:14.29}, agg:'avg', unit:'h' },
+  erro_imagem:     { label:'Índice Erro de Imagem/Falta',    tipo:'menor', bronze:3,  prata:2,  ouro:0,   bonif:{bronze:7.14,prata:10,ouro:14.29}, agg:'avg', unit:'%' },
+  os_executadas:   { label:'Planejado x Executados (OS)',    tipo:'maior', bronze:90, prata:95, ouro:100, bonif:{bronze:7.14,prata:10,ouro:14.29}, agg:'avg', unit:'%' },
+  inovacao:        { label:'Inovação e Criatividade',        tipo:'maior', bronze:2,  prata:3,  ouro:4,   bonif:{bronze:7.14,prata:10,ouro:14.29}, agg:'sum', unit:'pt'},
+  manutencao_ti:   { label:'Manutenção Preventiva de TI',    tipo:'maior', bronze:90, prata:95, ouro:100, bonif:{bronze:7.14,prata:10,ouro:14.29}, agg:'avg', unit:'%' },
+  banco_dados:     { label:'Atualização Banco de Dados',     tipo:'maior', bronze:90, prata:95, ouro:100, bonif:{bronze:7.14,prata:10,ouro:14.29}, agg:'avg', unit:'%' },
+};
 
-const METAS_CICERO_PADRAO = [
-  { chave:'atualizacao_cad', label:'Atualização de Cadastros (%)',         tipo:'maior', unidade:'%',  bronze:90, prata:95, ouro:100, bonif:{bronze:7.14,prata:10,ouro:14.29} },
-  { chave:'tempo_atualizacao',label:'Tempo Médio de Atualização (h)',      tipo:'menor', unidade:'h',  bronze:48, prata:36, ouro:24,  bonif:{bronze:7.14,prata:10,ouro:14.29} },
-  { chave:'erro_imagem',     label:'Índice de Erro de Imagem/Falta (%)',   tipo:'menor', unidade:'%',  bronze:3,  prata:2,  ouro:0,   bonif:{bronze:7.14,prata:10,ouro:14.29} },
-  { chave:'os_executadas',   label:'Planejado x Executados — OS (%)',      tipo:'maior', unidade:'%',  bronze:90, prata:95, ouro:100, bonif:{bronze:7.14,prata:10,ouro:14.29} },
-  { chave:'inovacao',        label:'Inovação e Criatividade (pt)',         tipo:'maior', unidade:'pt', bronze:2,  prata:3,  ouro:4,   bonif:{bronze:7.14,prata:10,ouro:14.29} },
-  { chave:'manutencao_ti',   label:'Manutenção Preventiva de TI (%)',      tipo:'maior', unidade:'%',  bronze:90, prata:95, ouro:100, bonif:{bronze:7.14,prata:10,ouro:14.29} },
-  { chave:'banco_dados',     label:'Atualização do Banco de Dados (%)',    tipo:'maior', unidade:'%',  bronze:90, prata:95, ouro:100, bonif:{bronze:7.14,prata:10,ouro:14.29} },
-];
+let METAS_AR = {...METAS_AR_PADRAO};
+let METAS_CI = {...METAS_CI_PADRAO};
+let roleAtual = 'arthur';
+let adminUnlocked = false;
 
-// ── ESTADO ───────────────────────────────────────────────────────────────────
-let perfil = null; // 'arthur' | 'cicero'
-let mesAtual = new Date().getMonth(); // 0-11
-let anoAtual = new Date().getFullYear();
-let senhas = { arthur:'arthur123', cicero:'cicero123', admin:'admin123' };
-let metasArthur = JSON.parse(JSON.stringify(METAS_ARTHUR_PADRAO));
-let metasCicero = JSON.parse(JSON.stringify(METAS_CICERO_PADRAO));
-let lancamentosArthur = []; // do mês atual
-let lancamentosCicero = [];
-let lockAberto = false;
-let tabAtiva = 0;
-
-const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-
-// ── UTILS ─────────────────────────────────────────────────────────────────────
-function fmt(v, unidade) {
-  if (v === null || v === undefined || isNaN(v)) return '–';
-  if (unidade === '%') return v.toFixed(1) + '%';
-  if (unidade === 'h') return v % 1 === 0 ? v + 'h' : v.toFixed(1) + 'h';
-  return Number.isInteger(v) ? String(v) : v.toFixed(1);
+// ── UTILITÁRIOS ──
+function fmtBonif(v) { return adminUnlocked ? `R$ ${v.toFixed(2).replace('.',',')}` : '🔒 ••••'; }
+function fmtVal(v, unit) {
+  if (v === null || v === undefined) return '—';
+  const n = Number(v);
+  if (isNaN(n)) return '—';
+  return n.toLocaleString('pt-BR',{maximumFractionDigits:1}) + (unit ? ` ${unit}` : '');
 }
-
-function getNivel(meta, valor) {
-  if (valor === null || valor === undefined || isNaN(valor)) return 'nd';
-  const {tipo, bronze, prata, ouro} = meta;
-  if (tipo === 'maior') {
-    if (valor >= ouro) return 'ouro';
-    if (valor >= prata) return 'prata';
-    if (valor >= bronze) return 'bronze';
-    return 'fora';
-  } else {
-    if (valor <= ouro) return 'ouro';
-    if (valor <= prata) return 'prata';
-    if (valor <= bronze) return 'bronze';
-    return 'fora';
-  }
-}
-
-function getBonif(meta, nivel) {
-  if (nivel === 'nd' || nivel === 'fora') return 0;
-  return meta.bonif[nivel] || 0;
-}
-
-function fmtBRL(v) {
-  return 'R$ ' + v.toFixed(2).replace('.',',');
-}
-
-function lockVal(v) {
-  if (!lockAberto) return '🔒 ••••';
-  return v;
-}
-
-function agregaMes(lancamentos, chave) {
-  // Para indicadores de média (%), usa avg; para contagem (oc, pt), usa sum; para tempo (h), usa avg
-  const vals = lancamentos.map(l => l[chave]).filter(v => v !== null && v !== undefined && !isNaN(v));
-  if (!vals.length) return null;
-  return vals.reduce((a,b) => a+b, 0) / vals.length;
-}
-
-function agregaMesSum(lancamentos, chave) {
-  const vals = lancamentos.map(l => l[chave]).filter(v => v !== null && v !== undefined && !isNaN(v));
-  if (!vals.length) return null;
-  return vals.reduce((a,b) => a+b, 0);
-}
-
-// Para cada indicador: oc e pt → sum; % e h → avg
-function agregaIndicador(meta, lancamentos) {
-  if (!lancamentos.length) return null;
-  if (meta.unidade === 'oc' || meta.unidade === 'pt') {
-    return agregaMesSum(lancamentos, meta.chave);
-  }
-  return agregaMes(lancamentos, meta.chave);
-}
-
-function toast(msg, tipo='') {
+function toast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast show ' + tipo;
-  setTimeout(() => t.className = 'toast', 2500);
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
 }
-
-// ── FIREBASE ──────────────────────────────────────────────────────────────────
-async function carregarConfig() {
-  try {
-    const snap = await getDoc(doc(db, 'config', 'senhas_cadastro'));
-    if (snap.exists()) senhas = { ...senhas, ...snap.data() };
-    const snapA = await getDoc(doc(db, 'config', 'metas_arthur'));
-    if (snapA.exists()) {
-      const d = snapA.data();
-      metasArthur = metasArthur.map(m => d[m.chave] ? { ...m, ...d[m.chave], bonif: m.bonif } : m);
-    }
-    const snapC = await getDoc(doc(db, 'config', 'metas_cicero'));
-    if (snapC.exists()) {
-      const d = snapC.data();
-      metasCicero = metasCicero.map(m => d[m.chave] ? { ...m, ...d[m.chave], bonif: m.bonif } : m);
-    }
-  } catch(e) { console.warn('Config:', e); }
-}
-
-async function carregarLancamentos(quem) {
-  const col = quem === 'arthur' ? 'lancamentos_arthur' : 'lancamentos_cicero';
-  try {
-    const q = query(collection(db, col),
-      where('mes', '==', mesAtual),
-      where('ano', '==', anoAtual),
-      orderBy('data', 'asc'));
-    const snap = await getDocs(q);
-    const dados = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    if (quem === 'arthur') lancamentosArthur = dados;
-    else lancamentosCicero = dados;
-    return dados;
-  } catch(e) { console.warn('Lançamentos:', e); return []; }
-}
-
-async function carregarLancamentosMes(quem, mes, ano) {
-  const col = quem === 'arthur' ? 'lancamentos_arthur' : 'lancamentos_cicero';
-  try {
-    const q = query(collection(db, col),
-      where('mes', '==', mes),
-      where('ano', '==', ano),
-      orderBy('data', 'asc'));
-    const snap = await getDocs(q);
-    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  } catch(e) { return []; }
-}
-
-async function carregarLancamentosAno(quem, ano) {
-  const col = quem === 'arthur' ? 'lancamentos_arthur' : 'lancamentos_cicero';
-  try {
-    const q = query(collection(db, col), where('ano', '==', ano), orderBy('data', 'asc'));
-    const snap = await getDocs(q);
-    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  } catch(e) { return []; }
-}
-
-// ── LOGIN ─────────────────────────────────────────────────────────────────────
-let roleSelecionado = 'arthur';
-
-window.selecionarRole = function(role) {
-  roleSelecionado = role;
-  document.getElementById('role-arthur').classList.toggle('active', role === 'arthur');
-  document.getElementById('role-cicero').classList.toggle('active', role === 'cicero');
-  document.getElementById('login-senha').value = '';
-  document.getElementById('login-erro').textContent = '';
-};
-
-window.tentarLogin = async function() {
-  const tipo = roleSelecionado;
-  const senha = document.getElementById('login-senha').value.trim();
-  const erroEl = document.getElementById('login-erro');
-  erroEl.textContent = '';
-  if (senha !== senhas[tipo]) {
-    erroEl.textContent = 'Senha incorreta.';
-    return;
-  }
-  perfil = tipo;
-  lockAberto = false;
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'flex';
-  document.getElementById('header-title').textContent = tipo === 'arthur' ? '📊 Arthur' : '🔧 Cícero';
-  document.getElementById('header-sub').textContent = 'JR Cadastro';
-  atualizarMesLabel();
-  await carregarLancamentos('arthur');
-  await carregarLancamentos('cicero');
-  renderTabs();
-  renderTab(0);
-};
-
-window.logout = function() {
-  perfil = null;
-  lockAberto = false;
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('login-senha').value = '';
-  document.getElementById('login-erro').style.display = 'none';
-  document.getElementById('btn-lock').textContent = '🔒';
-};
-
-// ── MÊS ───────────────────────────────────────────────────────────────────────
-function atualizarMesLabel() {
-  document.getElementById('mes-label').textContent = MESES[mesAtual];
-  document.getElementById('header-ano').textContent = anoAtual;
-}
-
-window.mudarMes = async function(delta) {
-  mesAtual += delta;
-  if (mesAtual < 0) { mesAtual = 11; anoAtual--; }
-  if (mesAtual > 11) { mesAtual = 0; anoAtual++; }
-  atualizarMesLabel();
-  await carregarLancamentos('arthur');
-  await carregarLancamentos('cicero');
-  renderTab(tabAtiva);
-};
-
-// ── LOCK ──────────────────────────────────────────────────────────────────────
-window.toggleLock = function() {
-  if (lockAberto) {
-    lockAberto = false;
-    document.getElementById('btn-lock').textContent = '🔒';
-    renderTab(tabAtiva);
-  } else {
-    document.getElementById('lock-senha').value = '';
-    document.getElementById('modal-lock').classList.add('open');
-  }
-};
-
-window.confirmarLock = function() {
-  const s = document.getElementById('lock-senha').value.trim();
-  if (s !== senhas.admin) { toast('Senha incorreta', 'error'); return; }
-  lockAberto = true;
-  document.getElementById('btn-lock').textContent = '🔓';
-  fecharModal('lock');
-  renderTab(tabAtiva);
-};
-
-// ── TABS ──────────────────────────────────────────────────────────────────────
-function getTabsConfig() {
-  if (perfil === 'arthur') {
-    return [
-      { id:'ind',  label:'📊 Indicadores', render: renderIndicadoresArthur },
-      { id:'dash', label:'📈 Dashboard',   render: renderDashboard },
-      { id:'cic',  label:'🔧 Cícero',      render: renderCiceroView },
-      { id:'hist', label:'📅 Histórico',   render: renderHistorico },
-      { id:'cfg',  label:'⚙️ Config',      render: renderConfig },
-    ];
-  } else {
-    return [
-      { id:'ind',  label:'📊 Indicadores', render: renderIndicadoresCicero },
-      { id:'hist', label:'📅 Histórico',   render: renderHistorico },
-    ];
-  }
-}
-
-function renderTabs() {
-  const tabs = getTabsConfig();
-  const bar = document.getElementById('tabs-bar');
-  bar.innerHTML = tabs.map((t,i) =>
-    `<div class="tab${i===tabAtiva?' active':''}" onclick="switchTab(${i})">${t.label}</div>`
-  ).join('');
-  const cont = document.getElementById('tabs-content');
-  cont.innerHTML = tabs.map((t,i) =>
-    `<div class="tab-content${i===tabAtiva?' active':''}" id="tc-${i}"></div>`
-  ).join('');
-}
-
-window.switchTab = function(i) {
-  tabAtiva = i;
-  document.querySelectorAll('.tab').forEach((t,j) => t.classList.toggle('active', j===i));
-  document.querySelectorAll('.tab-content').forEach((t,j) => t.classList.toggle('active', j===i));
-  renderTab(i);
-};
-
-function renderTab(i) {
-  const tabs = getTabsConfig();
-  if (tabs[i]) tabs[i].render(document.getElementById('tc-' + i));
-}
-
-// ── INDICADORES ARTHUR ────────────────────────────────────────────────────────
-function renderIndicadoresArthur(el) {
-  const metas = metasArthur;
-  let totalBonif = 0;
-  const cardsHTML = metas.map(m => {
-    const v = agregaIndicador(m, lancamentosArthur);
-    const nivel = getNivel(m, v);
-    const bonif = getBonif(m, nivel);
-    totalBonif += bonif;
-    return cardHTML(m, v, nivel, bonif);
-  }).join('');
-
-  el.innerHTML = `
-    <div class="ind-grid">
-      <div class="bonif-total">
-        <div>
-          <div class="bonif-total-label">Bonificação Total — ${MESES[mesAtual]}</div>
-          <div style="font-size:12px;color:var(--muted)">${lancamentosArthur.length} lançamento(s)</div>
-        </div>
-        <div class="bonif-total-valor">${lockVal(fmtBRL(totalBonif))}</div>
-      </div>
-      ${cardsHTML}
-      <button class="btn-lancar" onclick="abrirModal('arthur')">+ Lançar Hoje</button>
-    </div>`;
-}
-
-// ── INDICADORES CÍCERO ────────────────────────────────────────────────────────
-function renderIndicadoresCicero(el) {
-  const metas = metasCicero;
-  let totalBonif = 0;
-  const cardsHTML = metas.map(m => {
-    const v = agregaIndicador(m, lancamentosCicero);
-    const nivel = getNivel(m, v);
-    const bonif = getBonif(m, nivel);
-    totalBonif += bonif;
-    return cardHTML(m, v, nivel, bonif);
-  }).join('');
-
-  el.innerHTML = `
-    <div class="ind-grid">
-      <div class="bonif-total">
-        <div>
-          <div class="bonif-total-label">Bonificação Total — ${MESES[mesAtual]}</div>
-          <div style="font-size:12px;color:var(--muted)">${lancamentosCicero.length} lançamento(s)</div>
-        </div>
-        <div class="bonif-total-valor">${lockVal(fmtBRL(totalBonif))}</div>
-      </div>
-      ${cardsHTML}
-      <button class="btn-lancar cicero" onclick="abrirModal('cicero')">+ Lançar Hoje</button>
-    </div>`;
-}
-
-function cardHTML(m, v, nivel, bonif) {
-  const badgeClass = `badge badge-${nivel}`;
-  const badgeLabel = nivel === 'nd' ? '–' : nivel === 'fora' ? 'Fora da Meta' : nivel.charAt(0).toUpperCase()+nivel.slice(1);
-  const barPct = calcBarPct(m, v);
-  const barClass = nivel === 'nd' ? '' : `bar-${nivel}`;
-  const bonifStr = nivel === 'nd' || nivel === 'fora' ? '–' : lockVal(fmtBRL(bonif));
-  const bonifClass = nivel === 'nd' || nivel === 'fora' ? 'nd' : nivel;
-  return `
-  <div class="ind-card">
-    <div class="ind-card-top">
-      <div class="ind-label">${m.label}</div>
-      <span class="${badgeClass}">${badgeLabel}</span>
-    </div>
-    <div class="ind-valor">${fmt(v, m.unidade)}</div>
-    <div class="ind-meta">${metaStr(m)}</div>
-    <div class="ind-bonif ${bonifClass}">${nivel !== 'nd' && nivel !== 'fora' ? '💰 ' : ''}${bonifStr}</div>
-    <div class="ind-bar-wrap"><div class="ind-bar ${barClass}" style="width:${barPct}%"></div></div>
-  </div>`;
-}
-
-function metaStr(m) {
-  if (m.tipo === 'maior') return `Bronze ≥${fmt(m.bronze, m.unidade)} · Prata ≥${fmt(m.prata, m.unidade)} · Ouro ${fmt(m.ouro, m.unidade)}`;
-  return `Bronze ≤${fmt(m.bronze, m.unidade)} · Prata ≤${fmt(m.prata, m.unidade)} · Ouro ${fmt(m.ouro, m.unidade)}`;
-}
-
-function calcBarPct(m, v) {
-  if (v === null || isNaN(v)) return 0;
-  const nivel = getNivel(m, v);
-  if (nivel === 'ouro') return 100;
-  if (nivel === 'prata') return 75;
-  if (nivel === 'bronze') return 50;
-  return 20;
-}
-
-// ── MODAL LANÇAMENTO ──────────────────────────────────────────────────────────
-window.abrirModal = function(quem) {
-  const metas = quem === 'arthur' ? metasArthur : metasCicero;
-  const formEl = document.getElementById('form-' + quem);
-  formEl.innerHTML = metas.map(m => `
-    <div class="form-group">
-      <label class="form-label">${m.label}</label>
-      <input type="number" id="inp-${quem}-${m.chave}" placeholder="0"
-        step="${m.unidade==='%'||m.unidade==='h'?'0.1':'1'}" min="0"/>
-      <div class="form-hint">${m.unidade === '%' ? 'Valor em % (0 a 100)' : m.unidade === 'h' ? 'Valor em horas' : m.unidade === 'oc' ? 'Número de ocorrências' : 'Pontuação (0–10)'}</div>
-    </div>`).join('');
-  document.getElementById('modal-' + quem).classList.add('open');
-};
-
-window.fecharModal = function(quem) {
-  document.getElementById('modal-' + quem).classList.remove('open');
-};
-
-window.salvarLancamento = async function(quem) {
-  const metas = quem === 'arthur' ? metasArthur : metasCicero;
-  const agora = new Date();
-  const data = {
-    data: agora.toISOString().slice(0,10),
-    mes: mesAtual,
-    ano: anoAtual,
-    timestamp: agora.getTime(),
-  };
-  metas.forEach(m => {
-    const inp = document.getElementById(`inp-${quem}-${m.chave}`);
-    data[m.chave] = inp && inp.value !== '' ? parseFloat(inp.value) : null;
+function show(id) {
+  ['screen-login','screen-arthur','screen-cicero'].forEach(s => {
+    document.getElementById(s).style.display = s === id ? 'flex' : 'none';
   });
+}
+function avaliar(chave, valor, metas) {
+  const m = metas[chave];
+  if (!m || valor === null || valor === undefined || valor === '') return 'sem-dado';
+  const v = parseFloat(valor);
+  if (m.tipo === 'maior') {
+    if (v >= m.ouro)   return 'Ouro';
+    if (v >= m.prata)  return 'Prata';
+    if (v >= m.bronze) return 'Bronze';
+    return 'Fora';
+  } else {
+    if (v <= m.ouro)   return 'Ouro';
+    if (v <= m.prata)  return 'Prata';
+    if (v <= m.bronze) return 'Bronze';
+    return 'Fora';
+  }
+}
+function calcBonif(nivel, bonif) {
+  if (nivel==='Ouro')   return bonif.ouro;
+  if (nivel==='Prata')  return bonif.prata;
+  if (nivel==='Bronze') return bonif.bronze;
+  return 0;
+}
+function agregarMes(lancs, metas) {
+  const r = {};
+  Object.keys(metas).forEach(k => {
+    const vals = lancs.map(l => l[k]).filter(v => v !== undefined && v !== null && v !== '');
+    if (!vals.length) { r[k] = null; return; }
+    const nums = vals.map(Number);
+    r[k] = metas[k].agg === 'avg' ? nums.reduce((a,b)=>a+b,0)/nums.length : nums.reduce((a,b)=>a+b,0);
+  });
+  return r;
+}
+function calcTotalBonif(totais, metas) {
+  return Object.keys(metas).reduce((s,k) => s + calcBonif(avaliar(k,totais[k],metas), metas[k].bonif), 0);
+}
+
+// ── LOCK ──
+window.toggleAdmin = () => {
+  if (adminUnlocked) {
+    adminUnlocked = false;
+    atualizarLockUI();
+    reRenderAtivo();
+  } else {
+    document.getElementById('admin-senha').value = '';
+    document.getElementById('admin-err').textContent = '';
+    document.getElementById('modal-admin').classList.add('open');
+    setTimeout(() => document.getElementById('admin-senha').focus(), 100);
+  }
+};
+window.confirmarAdmin = async () => {
+  const senha = document.getElementById('admin-senha').value;
+  const err = document.getElementById('admin-err');
   try {
-    const col = quem === 'arthur' ? 'lancamentos_arthur' : 'lancamentos_cicero';
-    await addDoc(collection(db, col), data);
-    toast('Lançamento salvo!', 'success');
-    fecharModal(quem);
-    await carregarLancamentos(quem);
-    renderTab(tabAtiva);
-  } catch(e) { toast('Erro ao salvar', 'error'); }
+    const snap = await getDoc(doc(db,'config','senhas_cadastro'));
+    const s = snap.exists() ? snap.data() : {};
+    if (senha === (s.admin || 'admin123')) {
+      adminUnlocked = true;
+      fecharModais();
+      atualizarLockUI();
+      reRenderAtivo();
+    } else { err.textContent = 'Senha incorreta'; }
+  } catch(e) { err.textContent = 'Erro de conexão'; }
+};
+function atualizarLockUI() {
+  document.querySelectorAll('.btn-lock').forEach(b => {
+    b.textContent = adminUnlocked ? '🔓' : '🔒';
+    b.classList.toggle('unlocked', adminUnlocked);
+  });
+}
+function reRenderAtivo() {
+  if (document.getElementById('screen-arthur').style.display==='flex') carregarDadosArthur();
+  else if (document.getElementById('screen-cicero').style.display==='flex') carregarDadosCicero();
+}
+
+// ── METAS ──
+async function carregarMetas() {
+  try {
+    const sa = await getDoc(doc(db,'config','metas_arthur'));
+    if (sa.exists()) METAS_AR = deepMerge(METAS_AR_PADRAO, sa.data());
+    const sc = await getDoc(doc(db,'config','metas_cicero'));
+    if (sc.exists()) METAS_CI = deepMerge(METAS_CI_PADRAO, sc.data());
+  } catch(e) {}
+}
+function deepMerge(base, over) {
+  const r = {...base};
+  Object.keys(over).forEach(k => { if (r[k]) r[k] = {...r[k], ...over[k]}; });
+  return r;
+}
+
+// ── LOGIN ──
+window.selRole = (role) => {
+  roleAtual = role;
+  document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`[data-role="${role}"]`).classList.add('active');
+};
+window.login = async () => {
+  const senha = document.getElementById('inp-senha').value;
+  const err = document.getElementById('login-err');
+  if (!senha) { err.textContent = 'Digite a senha'; return; }
+  try {
+    const snap = await getDoc(doc(db,'config','senhas_cadastro'));
+    const senhas = snap.exists() ? snap.data() : { arthur:'arthur123', cicero:'cicero123', admin:'admin123' };
+    if (!snap.exists()) await setDoc(doc(db,'config','senhas_cadastro'), senhas);
+    if (roleAtual === 'arthur' && senha === senhas.arthur) { entrarArthur(); }
+    else if (roleAtual === 'cicero' && senha === senhas.cicero) { entrarCicero(); }
+    else { err.textContent = 'Senha incorreta'; }
+  } catch(e) { err.textContent = 'Erro de conexão. Verifique o Firebase.'; }
+};
+window.logout = () => {
+  adminUnlocked = false; atualizarLockUI();
+  document.getElementById('inp-senha').value = '';
+  document.getElementById('login-err').textContent = '';
+  show('screen-login');
 };
 
-// ── DASHBOARD ─────────────────────────────────────────────────────────────────
-async function renderDashboard(el) {
-  el.innerHTML = '<div class="loading"><div class="spinner"></div>Carregando...</div>';
-  const mA = metasArthur, mC = metasCicero;
+async function entrarArthur() {
+  show('screen-arthur');
+  await carregarMetas();
+  const hoje = new Date();
+  document.getElementById('ar-mes').value = hoje.getMonth()+1;
+  document.getElementById('ar-ano').value = hoje.getFullYear();
+  document.getElementById('ar-hist-mes').value = hoje.getMonth()+1;
+  document.getElementById('ar-hist-ano').value = hoje.getFullYear();
+  atualizarApiUrls();
+  renderConfigMetasArthur();
+  renderConfigMetasCicero();
+  await carregarDadosArthur();
+}
+async function entrarCicero() {
+  show('screen-cicero');
+  await carregarMetas();
+  const hoje = new Date();
+  document.getElementById('ci-mes').value = hoje.getMonth()+1;
+  document.getElementById('ci-ano').value = hoje.getFullYear();
+  document.getElementById('ci-hist-mes').value = hoje.getMonth()+1;
+  document.getElementById('ci-hist-ano').value = hoje.getFullYear();
+  await carregarDadosCicero();
+}
 
-  function calcBonifTotal(metas, lancs) {
-    return metas.reduce((s, m) => {
-      const v = agregaIndicador(m, lancs);
-      return s + getBonif(m, getNivel(m, v));
-    }, 0);
-  }
-  function calcPctOuro(metas, lancs) {
-    if (!lancs.length) return 0;
-    const em_ouro = metas.filter(m => getNivel(m, agregaIndicador(m, lancs)) === 'ouro').length;
-    return Math.round(em_ouro / metas.length * 100);
-  }
+// ── DADOS ARTHUR ──
+window.carregarDadosArthur = async () => {
+  const mes = parseInt(document.getElementById('ar-mes').value);
+  const ano = parseInt(document.getElementById('ar-ano').value);
+  document.getElementById('ar-loading').style.display='block';
+  document.getElementById('ar-cards').style.display='none';
+  document.getElementById('ar-total').style.display='none';
+  const snap = await getDocs(query(collection(db,'lancamentos_arthur'), where('mes','==',mes), where('ano','==',ano)));
+  const dados = snap.docs.map(d=>d.data());
+  const totais = agregarMes(dados, METAS_AR);
+  document.getElementById('ar-loading').style.display='none';
+  document.getElementById('ar-cards').style.display='grid';
+  document.getElementById('ar-total').style.display='flex';
+  document.getElementById('ar-cards').innerHTML = renderCards(totais, METAS_AR);
+  const total = calcTotalBonif(totais, METAS_AR);
+  document.getElementById('ar-total-val').textContent = fmtBonif(total);
+  const hoje = new Date().toISOString().slice(0,10);
+  document.getElementById('ar-lanc-hoje').innerHTML = `Lançamentos hoje: <span>${dados.filter(d=>d.data===hoje).length}</span>`;
+  await carregarHistoricoArthur(ano);
+  await carregarDadosCiceroView(mes, ano);
+  await renderDashboard(mes, ano);
+};
 
-  const bA = calcBonifTotal(mA, lancamentosArthur);
-  const bC = calcBonifTotal(mC, lancamentosCicero);
-  const pOA = calcPctOuro(mA, lancamentosArthur);
-  const pOC = calcPctOuro(mC, lancamentosCicero);
+// ── DADOS CÍCERO VIEW (na aba do Arthur) ──
+async function carregarDadosCiceroView(mes, ano) {
+  document.getElementById('ga-loading').style.display='block';
+  document.getElementById('ga-ranking').innerHTML='';
+  document.getElementById('ga-total').style.display='none';
+  const snap = await getDocs(query(collection(db,'lancamentos_cicero'), where('mes','==',mes), where('ano','==',ano)));
+  const dados = snap.docs.map(d=>d.data());
+  const totais = agregarMes(dados, METAS_CI);
+  const bonif = calcTotalBonif(totais, METAS_CI);
+  const semLanc = dados.length === 0;
+  const niveisColor = { Ouro:'var(--ouro)', Prata:'var(--prata)', Bronze:'var(--bronze)', Fora:'var(--muted)', 'sem-dado':'var(--muted)' };
+  const niveisLabels = { Ouro:'🥇 Ouro', Prata:'🥈 Prata', Bronze:'🥉 Bronze', Fora:'⚠️ Fora', 'sem-dado':'—' };
+  const indsHtml = Object.keys(METAS_CI).map(k => {
+    const m = METAS_CI[k]; const nv = avaliar(k, totais[k], METAS_CI);
+    return `<div class="rc-ind">
+      <div class="ri-label">${m.label}</div>
+      <div class="ri-val" style="color:${niveisColor[nv]}">${fmtVal(totais[k], m.unit)}</div>
+      <div class="ri-badge">${niveisLabels[nv]}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('ga-loading').style.display='none';
+  document.getElementById('ga-ranking').innerHTML = `<div class="rank-card">
+    <div class="rc-header">
+      <span class="rc-nome">👤 Cícero</span>
+      ${semLanc ? '<span class="rc-semlanc">Sem lançamento</span>' : `<span class="rc-bonif">${fmtBonif(bonif)}</span>`}
+    </div>
+    ${semLanc ? '' : `<div class="rc-inds">${indsHtml}</div>`}
+  </div>`;
+  document.getElementById('ga-total').style.display='flex';
+  document.getElementById('ga-total-val').textContent = fmtBonif(bonif);
+}
 
-  const niveisArthur = mA.map(m => ({ label: m.label, nivel: getNivel(m, agregaIndicador(m, lancamentosArthur)) }));
-  const niveisCicero = mC.map(m => ({ label: m.label, nivel: getNivel(m, agregaIndicador(m, lancamentosCicero)) }));
+// ── DADOS CÍCERO ──
+window.carregarDadosCicero = async () => {
+  const mes = parseInt(document.getElementById('ci-mes').value);
+  const ano = parseInt(document.getElementById('ci-ano').value);
+  document.getElementById('ci-loading').style.display='block';
+  document.getElementById('ci-cards').style.display='none';
+  document.getElementById('ci-total').style.display='none';
+  const snap = await getDocs(query(collection(db,'lancamentos_cicero'), where('mes','==',mes), where('ano','==',ano)));
+  const dados = snap.docs.map(d=>d.data());
+  const totais = agregarMes(dados, METAS_CI);
+  document.getElementById('ci-loading').style.display='none';
+  document.getElementById('ci-cards').style.display='grid';
+  document.getElementById('ci-total').style.display='flex';
+  document.getElementById('ci-cards').innerHTML = renderCards(totais, METAS_CI);
+  const total = calcTotalBonif(totais, METAS_CI);
+  document.getElementById('ci-total-val').textContent = fmtBonif(total);
+  const hoje = new Date().toISOString().slice(0,10);
+  document.getElementById('ci-lanc-hoje').innerHTML = `Lançamentos hoje: <span>${dados.filter(d=>d.data===hoje).length}</span>`;
+  await carregarHistoricoCicero(ano);
+};
+
+// ── RENDER CARDS ──
+function renderCards(totais, metas) {
+  return Object.keys(metas).map(k => {
+    const m = metas[k];
+    const v = totais[k];
+    const nivel = avaliar(k, v, metas);
+    const bonif = calcBonif(nivel, m.bonif);
+    const metaStr = m.tipo === 'maior'
+      ? `Meta: Bronze ≥${m.bronze}${m.unit} · Prata ≥${m.prata}${m.unit} · Ouro ${m.ouro}${m.unit}`
+      : `Meta: Bronze ≤${m.bronze}${m.unit} · Prata ≤${m.prata}${m.unit} · Ouro ${m.ouro}${m.unit}`;
+    return `<div class="ind-card ${nivel}">
+      <div class="nome">${m.label}</div>
+      <div class="valor">${fmtVal(v, m.unit)}</div>
+      <div class="nivel-row">
+        <span class="badge ${nivel}">${nivel === 'sem-dado' ? '—' : nivel === 'Fora' ? '⚠️ Fora' : nivel}</span>
+        <span class="bonif-val">${nivel !== 'sem-dado' && nivel !== 'Fora' ? fmtBonif(bonif) : ''}</span>
+      </div>
+      <div class="meta-row">${metaStr}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── DASHBOARD ──
+async function renderDashboard(mes, ano) {
+  const snapAR = await getDocs(query(collection(db,'lancamentos_arthur'), where('mes','==',mes), where('ano','==',ano)));
+  const snapCI = await getDocs(query(collection(db,'lancamentos_cicero'), where('mes','==',mes), where('ano','==',ano)));
+  const tAR = agregarMes(snapAR.docs.map(d=>d.data()), METAS_AR);
+  const tCI = agregarMes(snapCI.docs.map(d=>d.data()), METAS_CI);
+  const bAR = calcTotalBonif(tAR, METAS_AR);
+  const bCI = calcTotalBonif(tCI, METAS_CI);
+  const ouroAR = Object.keys(METAS_AR).filter(k=>avaliar(k,tAR[k],METAS_AR)==='Ouro').length;
+  const ouroCI = Object.keys(METAS_CI).filter(k=>avaliar(k,tCI[k],METAS_CI)==='Ouro').length;
+  document.getElementById('dk-ar').textContent = fmtBonif(bAR);
+  document.getElementById('dk-ci').textContent = fmtBonif(bCI);
+  document.getElementById('dk-total').textContent = fmtBonif(bAR+bCI);
+  document.getElementById('dk-ouro').textContent = `${ouroAR+ouroCI}/14`;
+
+  // Barras Arthur
+  document.getElementById('dash-bars-ar').innerHTML = Object.keys(METAS_AR).map(k => {
+    const nv = avaliar(k, tAR[k], METAS_AR);
+    const pct = nv==='Ouro'?100:nv==='Prata'?70:nv==='Bronze'?45:20;
+    return `<div class="nivel-bar-row">
+      <span class="nb-label">${METAS_AR[k].label}</span>
+      <div class="nb-track"><div class="nb-fill ${nv}" style="width:${pct}%">${nv}</div></div>
+    </div>`;
+  }).join('');
+
+  // Barras Cícero
+  document.getElementById('dash-bars-ci').innerHTML = Object.keys(METAS_CI).map(k => {
+    const nv = avaliar(k, tCI[k], METAS_CI);
+    const pct = nv==='Ouro'?100:nv==='Prata'?70:nv==='Bronze'?45:20;
+    return `<div class="nivel-bar-row">
+      <span class="nb-label">${METAS_CI[k].label}</span>
+      <div class="nb-track"><div class="nb-fill ${nv}" style="width:${pct}%">${nv}</div></div>
+    </div>`;
+  }).join('');
+
+  // Placar
+  const niveis = Object.keys(METAS_AR).map(k=>avaliar(k,tAR[k],METAS_AR));
+  const cnt = (n) => niveis.filter(x=>x===n).length;
+  document.getElementById('dash-placar-ar').innerHTML = `
+    <div class="placar-card ouro"><div class="pc-num">${cnt('Ouro')}</div><div class="pc-lbl">Ouro</div></div>
+    <div class="placar-card prata"><div class="pc-num">${cnt('Prata')}</div><div class="pc-lbl">Prata</div></div>
+    <div class="placar-card bronze"><div class="pc-num">${cnt('Bronze')}</div><div class="pc-lbl">Bronze</div></div>
+    <div class="placar-card fora"><div class="pc-num">${cnt('Fora')}</div><div class="pc-lbl">Fora</div></div>`;
 
   // Gráfico anual
-  const dadosAno = await Promise.all(
-    Array.from({length:12},(_,i) => Promise.all([
-      carregarLancamentosMes('arthur', i, anoAtual),
-      carregarLancamentosMes('cicero', i, anoAtual)
-    ]))
-  );
-  const grafA = dadosAno.map(([la]) => calcBonifTotal(mA, la));
-  const grafC = dadosAno.map(([,lc]) => calcBonifTotal(mC, lc));
-
-  el.innerHTML = `
-    <div class="kpi-grid">
-      <div class="kpi-card"><div class="kpi-val blue">${lockVal(fmtBRL(bA))}</div><div class="kpi-label">Bonif. Arthur</div></div>
-      <div class="kpi-card"><div class="kpi-val purple">${lockVal(fmtBRL(bC))}</div><div class="kpi-label">Bonif. Cícero</div></div>
-      <div class="kpi-card"><div class="kpi-val">${lockVal(fmtBRL(bA+bC))}</div><div class="kpi-label">Total Geral</div></div>
-      <div class="kpi-card"><div class="kpi-val yellow">${pOA}% / ${pOC}%</div><div class="kpi-label">Em Ouro A/C</div></div>
-    </div>
-    <div class="section-title">Níveis — Arthur</div>
-    <div class="placar" style="margin-bottom:16px">${niveisArthur.map(n => niveisRow(n)).join('')}</div>
-    <div class="section-title">Níveis — Cícero</div>
-    <div class="placar" style="margin-bottom:16px">${niveisCicero.map(n => niveisRow(n)).join('')}</div>
-    <div class="grafico-wrap">
-      <div class="grafico-title">📈 Bonificação Anual ${anoAtual}</div>
-      ${svgGrafico(grafA, grafC)}
-      <div class="grafico-legenda">
-        <div class="legenda-item"><div class="legenda-cor" style="background:var(--accent)"></div>Arthur</div>
-        <div class="legenda-item"><div class="legenda-cor" style="background:#a78bfa"></div>Cícero</div>
-      </div>
-    </div>`;
-}
-
-function niveisRow({label, nivel}) {
-  const classes = {ouro:'badge-ouro',prata:'badge-prata',bronze:'badge-bronze',fora:'badge-fora',nd:'badge-nd'};
-  const labels = {ouro:'Ouro',prata:'Prata',bronze:'Bronze',fora:'Fora',nd:'–'};
-  const short = label.replace(/\s*\(.*\)/, '');
-  return `<div class="nivel-row"><span class="nivel-label">${short}</span><span class="badge ${classes[nivel]}">${labels[nivel]}</span></div>`;
-}
-
-function svgGrafico(serA, serC) {
-  const W=320, H=120, PAD=20, BOTTOM=20;
-  const maxV = Math.max(...serA, ...serC, 1);
-  const pts = (ser) => ser.map((v,i) => {
-    const x = PAD + i * (W - PAD*2) / 11;
-    const y = PAD + (1 - v/maxV) * (H - PAD - BOTTOM);
-    return `${x},${y}`;
-  }).join(' ');
-  const mesLabels = ['J','F','M','A','M','J','J','A','S','O','N','D'];
-  const labels = mesLabels.map((l,i) => {
-    const x = PAD + i * (W - PAD*2) / 11;
-    return `<text x="${x}" y="${H-4}" fill="#475569" font-size="9" text-anchor="middle">${l}</text>`;
-  }).join('');
-  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">
-    <polyline fill="none" stroke="#3b82f6" stroke-width="2" stroke-linejoin="round" points="${pts(serA)}"/>
-    <polyline fill="none" stroke="#a78bfa" stroke-width="2" stroke-linejoin="round" points="${pts(serC)}"/>
-    ${labels}
-  </svg>`;
-}
-
-// ── CÍCERO VIEW (no Arthur) ────────────────────────────────────────────────────
-function renderCiceroView(el) {
-  const metas = metasCicero;
-  let totalBonif = 0;
-  const cardsHTML = metas.map(m => {
-    const v = agregaIndicador(m, lancamentosCicero);
-    const nivel = getNivel(m, v);
-    const bonif = getBonif(m, nivel);
-    totalBonif += bonif;
-    return cardHTML(m, v, nivel, bonif);
-  }).join('');
-
-  el.innerHTML = `
-    <div class="cicero-header">
-      <div class="cicero-avatar">C</div>
-      <div>
-        <div style="font-weight:600;font-size:15px">Cícero</div>
-        <div style="font-size:12px;color:var(--muted)">Auxiliar Cadastros · ${MESES[mesAtual]} ${anoAtual}</div>
-      </div>
-    </div>
-    <div class="ind-grid">
-      <div class="bonif-total">
-        <div>
-          <div class="bonif-total-label">Bonificação — Cícero</div>
-          <div style="font-size:12px;color:var(--muted)">${lancamentosCicero.length} lançamento(s)</div>
-        </div>
-        <div class="bonif-total-valor" style="color:#a78bfa">${lockVal(fmtBRL(totalBonif))}</div>
-      </div>
-      ${cardsHTML}
-      <button class="btn-lancar cicero" onclick="abrirModal('cicero')">+ Lançar para Cícero</button>
-    </div>`;
-}
-
-// ── HISTÓRICO ─────────────────────────────────────────────────────────────────
-let histModo = 'mensal';
-let histMesSel = new Date().getMonth();
-let histAnoSel = new Date().getFullYear();
-
-async function renderHistorico(el) {
-  el.innerHTML = `
-    <div class="hist-toggle">
-      <button class="hist-btn ${histModo==='mensal'?'active':''}" onclick="switchHistModo('mensal')">📅 Mensal</button>
-      <button class="hist-btn ${histModo==='diario'?'active':''}" onclick="switchHistModo('diario')">📆 Diário</button>
-    </div>
-    <div id="hist-body"><div class="loading"><div class="spinner"></div>Carregando...</div></div>`;
-  await renderHistBody(el);
-}
-
-window.switchHistModo = async function(modo) {
-  histModo = modo;
-  renderTab(tabAtiva);
-};
-
-async function renderHistBody(elParent) {
-  const el = document.getElementById('hist-body');
-  if (!el) return;
-  const quem = perfil;
-  const metas = quem === 'arthur' ? metasArthur : metasCicero;
-
-  if (histModo === 'mensal') {
-    el.innerHTML = '<div class="loading"><div class="spinner"></div>Carregando...</div>';
-    const lancsAno = await carregarLancamentosAno(quem, histAnoSel);
-    const anos = [histAnoSel-1, histAnoSel, histAnoSel+1];
-    let rows = '';
-    for (let m=0; m<12; m++) {
-      const lancs = lancsAno.filter(l => l.mes === m);
-      const bonif = metas.reduce((s, mt) => {
-        const v = agregaIndicador(mt, lancs);
-        return s + getBonif(mt, getNivel(mt, v));
-      }, 0);
-      const niveis = metas.map(mt => getNivel(mt, agregaIndicador(mt, lancs)));
-      const ouroCount = niveis.filter(n => n==='ouro').length;
-      const pctOuro = lancs.length ? Math.round(ouroCount/metas.length*100) : 0;
-      rows += `<tr>
-        <td>${MESES[m]}</td>
-        <td>${lancs.length}</td>
-        <td>${pctOuro}%</td>
-        <td>${lockVal(fmtBRL(bonif))}</td>
-      </tr>`;
-    }
-    el.innerHTML = `
-      <div class="hist-sel">
-        <select onchange="histAnoSel=parseInt(this.value);switchHistModo('mensal')">
-          ${anos.map(a => `<option value="${a}"${a===histAnoSel?' selected':''}>${a}</option>`).join('')}
-        </select>
-      </div>
-      <div class="hist-table-wrap">
-        <table>
-          <thead><tr><th>Mês</th><th>Lançamentos</th><th>% Ouro</th><th>Bonif.</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>`;
-  } else {
-    // Diário
-    el.innerHTML = '<div class="loading"><div class="spinner"></div>Carregando...</div>';
-    const lancs = await carregarLancamentosMes(quem, histMesSel, histAnoSel);
-    const anos = [histAnoSel-1, histAnoSel, histAnoSel+1];
-    const mesesOpts = MESES.map((m,i) => `<option value="${i}"${i===histMesSel?' selected':''}>${m}</option>`).join('');
-    const anosOpts = anos.map(a => `<option value="${a}"${a===histAnoSel?' selected':''}>${a}</option>`).join('');
-    let rows = '';
-    lancs.forEach(l => {
-      const bonif = metas.reduce((s, m) => s + getBonif(m, getNivel(m, l[m.chave])), 0);
-      rows += `<tr>
-        <td>${l.data||'–'}</td>
-        <td>${metas.map(m => fmt(l[m.chave], m.unidade)).join(' / ')}</td>
-        <td>${lockVal(fmtBRL(bonif))}</td>
-      </tr>`;
-    });
-    if (!lancs.length) rows = `<tr><td colspan="3" style="text-align:center;color:var(--muted)">Sem lançamentos</td></tr>`;
-    el.innerHTML = `
-      <div class="hist-sel">
-        <select onchange="histMesSel=parseInt(this.value);switchHistModo('diario')">${mesesOpts}</select>
-        <select onchange="histAnoSel=parseInt(this.value);switchHistModo('diario')">${anosOpts}</select>
-      </div>
-      <div class="hist-table-wrap">
-        <table>
-          <thead><tr><th>Data</th><th>Valores</th><th>Bonif.</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>`;
+  const meses = Array.from({length:12},(_,i)=>i+1);
+  const grafAR = [], grafCI = [];
+  for (const m of meses) {
+    const [sa,sc] = await Promise.all([
+      getDocs(query(collection(db,'lancamentos_arthur'), where('mes','==',m), where('ano','==',ano))),
+      getDocs(query(collection(db,'lancamentos_cicero'),  where('mes','==',m), where('ano','==',ano)))
+    ]);
+    grafAR.push(calcTotalBonif(agregarMes(sa.docs.map(d=>d.data()), METAS_AR), METAS_AR));
+    grafCI.push(calcTotalBonif(agregarMes(sc.docs.map(d=>d.data()), METAS_CI), METAS_CI));
   }
+  renderGrafico(grafAR, grafCI);
 }
 
-// ── CONFIG ────────────────────────────────────────────────────────────────────
-function renderConfig(el) {
-  el.innerHTML = `
-    <!-- SENHAS -->
-    <div class="config-section">
-      <h3>🔐 Senhas</h3>
-      <div class="config-row">
-        <label>Nova Senha — Arthur</label>
-        <input type="password" id="cfg-senha-arthur" placeholder="Nova senha..."/>
-      </div>
-      <div class="config-row">
-        <label>Nova Senha — Cícero</label>
-        <input type="password" id="cfg-senha-cicero" placeholder="Nova senha..."/>
-      </div>
-      <div class="config-row">
-        <label>Nova Senha — Admin 🔒</label>
-        <input type="password" id="cfg-senha-admin" placeholder="Nova senha..."/>
-      </div>
-      <button class="btn-config" onclick="salvarSenhas()">Salvar Senhas</button>
-    </div>
-
-    <!-- METAS ARTHUR -->
-    <div class="config-section">
-      <h3>📊 Metas — Arthur</h3>
-      ${metasArthur.map(m => `
-        <div class="config-row">
-          <label>${m.label}</label>
-          <div class="meta-grid">
-            <div><label>Bronze</label><input type="number" id="ma-bronze-${m.chave}" value="${m.bronze}" step="0.1"/></div>
-            <div><label>Prata</label><input type="number" id="ma-prata-${m.chave}" value="${m.prata}" step="0.1"/></div>
-            <div><label>Ouro</label><input type="number" id="ma-ouro-${m.chave}" value="${m.ouro}" step="0.1"/></div>
-          </div>
-        </div>`).join('')}
-      <button class="btn-config" onclick="salvarMetas('arthur')">Salvar Metas Arthur</button>
-    </div>
-
-    <!-- METAS CÍCERO -->
-    <div class="config-section">
-      <h3>🔧 Metas — Cícero</h3>
-      ${metasCicero.map(m => `
-        <div class="config-row">
-          <label>${m.label}</label>
-          <div class="meta-grid">
-            <div><label>Bronze</label><input type="number" id="mc-bronze-${m.chave}" value="${m.bronze}" step="0.1"/></div>
-            <div><label>Prata</label><input type="number" id="mc-prata-${m.chave}" value="${m.prata}" step="0.1"/></div>
-            <div><label>Ouro</label><input type="number" id="mc-ouro-${m.chave}" value="${m.ouro}" step="0.1"/></div>
-          </div>
-        </div>`).join('')}
-      <button class="btn-config" onclick="salvarMetas('cicero')">Salvar Metas Cícero</button>
-    </div>
-
-    <!-- API POWER BI -->
-    <div class="config-section">
-      <h3>🔗 API Power BI</h3>
-      <div class="config-row">
-        <label>Lançamentos Arthur</label>
-        <div class="api-url">https://firestore.googleapis.com/v1/projects/jr-banho/databases/(default)/documents/lancamentos_arthur?key=AIzaSyDTqmtUcFa2EZTD304RYb_vb6BLvo9PknQ</div>
-      </div>
-      <div class="config-row">
-        <label>Lançamentos Cícero</label>
-        <div class="api-url">https://firestore.googleapis.com/v1/projects/jr-banho/databases/(default)/documents/lancamentos_cicero?key=AIzaSyDTqmtUcFa2EZTD304RYb_vb6BLvo9PknQ</div>
-      </div>
-    </div>`;
+function renderGrafico(serA, serC) {
+  const svg = document.getElementById('dash-chart');
+  const W=700, H=180, PAD=30, BOT=20;
+  const max = Math.max(...serA, ...serC, 1);
+  const x = i => PAD + i*(W-PAD*2)/11;
+  const y = v => PAD + (1-v/max)*(H-PAD-BOT);
+  const pts = s => s.map((v,i)=>`${x(i)},${y(v)}`).join(' ');
+  const labels = ['J','F','M','A','M','J','J','A','S','O','N','D'].map((l,i)=>
+    `<text x="${x(i)}" y="${H-4}" fill="#555" font-size="11" text-anchor="middle">${l}</text>`).join('');
+  svg.innerHTML = `
+    <polyline fill="none" stroke="${'#C9A84C'}" stroke-width="2.5" stroke-linejoin="round" points="${pts(serA)}"/>
+    <polyline fill="none" stroke="#6b8cff" stroke-width="2.5" stroke-linejoin="round" points="${pts(serC)}"/>
+    ${serA.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="4" fill="#C9A84C"/>`).join('')}
+    ${serC.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="4" fill="#6b8cff"/>`).join('')}
+    ${labels}`;
+  document.getElementById('dash-chart-legend').innerHTML = `
+    <span>🟡 Arthur</span><span>🔵 Cícero</span>`;
 }
 
-window.salvarSenhas = async function() {
-  const a = document.getElementById('cfg-senha-arthur').value.trim();
-  const c = document.getElementById('cfg-senha-cicero').value.trim();
-  const adm = document.getElementById('cfg-senha-admin').value.trim();
-  if (a) senhas.arthur = a;
-  if (c) senhas.cicero = c;
-  if (adm) senhas.admin = adm;
-  try {
-    await setDoc(doc(db, 'config', 'senhas_cadastro'), senhas);
-    toast('Senhas salvas!', 'success');
-  } catch(e) { toast('Erro ao salvar', 'error'); }
+// ── HISTÓRICO ──
+async function carregarHistoricoArthur(ano) {
+  const snap = await getDocs(query(collection(db,'lancamentos_arthur'), where('ano','==',ano)));
+  const dados = snap.docs.map(d=>d.data());
+  const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  document.getElementById('ar-hist-body').innerHTML = MESES.map((nm,i) => {
+    const lancs = dados.filter(d=>d.mes===(i+1));
+    const t = agregarMes(lancs, METAS_AR);
+    const bonif = calcTotalBonif(t, METAS_AR);
+    const keys = Object.keys(METAS_AR);
+    const cells = keys.map(k => {
+      const nv = avaliar(k,t[k],METAS_AR);
+      return `<td class="nivel ${nv}">${fmtVal(t[k], METAS_AR[k].unit)}</td>`;
+    }).join('');
+    return `<tr><td>${nm}</td>${cells}<td>${fmtBonif(bonif)}</td></tr>`;
+  }).join('');
+}
+async function carregarHistoricoCicero(ano) {
+  const snap = await getDocs(query(collection(db,'lancamentos_cicero'), where('ano','==',ano)));
+  const dados = snap.docs.map(d=>d.data());
+  const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  document.getElementById('ci-hist-body').innerHTML = MESES.map((nm,i) => {
+    const lancs = dados.filter(d=>d.mes===(i+1));
+    const t = agregarMes(lancs, METAS_CI);
+    const bonif = calcTotalBonif(t, METAS_CI);
+    const keys = Object.keys(METAS_CI);
+    const cells = keys.map(k => {
+      const nv = avaliar(k,t[k],METAS_CI);
+      return `<td class="nivel ${nv}">${fmtVal(t[k], METAS_CI[k].unit)}</td>`;
+    }).join('');
+    return `<tr><td>${nm}</td>${cells}<td>${fmtBonif(bonif)}</td></tr>`;
+  }).join('');
+}
+
+window.renderDiarioArthur = async () => {
+  const mes = parseInt(document.getElementById('ar-hist-mes').value);
+  const ano = parseInt(document.getElementById('ar-hist-ano').value);
+  const snap = await getDocs(query(collection(db,'lancamentos_arthur'), where('mes','==',mes), where('ano','==',ano), orderBy('data','asc')));
+  const dados = snap.docs.map(d=>d.data());
+  const keys = Object.keys(METAS_AR);
+  document.getElementById('ar-hist-diario-body').innerHTML = dados.length
+    ? dados.map(l => `<tr><td>${l.data||'—'}</td>${keys.map(k=>`<td>${fmtVal(l[k], METAS_AR[k].unit)}</td>`).join('')}</tr>`).join('')
+    : `<tr><td colspan="8" style="color:var(--muted);text-align:center;padding:20px">Sem lançamentos</td></tr>`;
+};
+window.renderDiarioCicero = async () => {
+  const mes = parseInt(document.getElementById('ci-hist-mes').value);
+  const ano = parseInt(document.getElementById('ci-hist-ano').value);
+  const snap = await getDocs(query(collection(db,'lancamentos_cicero'), where('mes','==',mes), where('ano','==',ano), orderBy('data','asc')));
+  const dados = snap.docs.map(d=>d.data());
+  const keys = Object.keys(METAS_CI);
+  document.getElementById('ci-hist-diario-body').innerHTML = dados.length
+    ? dados.map(l => `<tr><td>${l.data||'—'}</td>${keys.map(k=>`<td>${fmtVal(l[k], METAS_CI[k].unit)}</td>`).join('')}</tr>`).join('')
+    : `<tr><td colspan="8" style="color:var(--muted);text-align:center;padding:20px">Sem lançamentos</td></tr>`;
 };
 
-window.salvarMetas = async function(quem) {
-  const metas = quem === 'arthur' ? metasArthur : metasCicero;
-  const prefix = quem === 'arthur' ? 'ma' : 'mc';
-  const obj = {};
-  metas.forEach(m => {
-    const b = parseFloat(document.getElementById(`${prefix}-bronze-${m.chave}`)?.value);
-    const p = parseFloat(document.getElementById(`${prefix}-prata-${m.chave}`)?.value);
-    const o = parseFloat(document.getElementById(`${prefix}-ouro-${m.chave}`)?.value);
-    m.bronze = isNaN(b) ? m.bronze : b;
-    m.prata  = isNaN(p) ? m.prata  : p;
-    m.ouro   = isNaN(o) ? m.ouro   : o;
-    obj[m.chave] = { bronze: m.bronze, prata: m.prata, ouro: m.ouro };
+// ── MODAIS LANÇAMENTO ──
+window.abrirModalArthur = () => {
+  document.getElementById('ar-data').value = new Date().toISOString().slice(0,10);
+  ['erro_cadastro','cadastros_realiz','inovacao','plano_desenv','checklist','ocorrencia','prazo_cadastro']
+    .forEach(k => { const el = document.getElementById(`ar-${k}`); if(el) el.value=''; });
+  document.getElementById('modal-arthur').classList.add('open');
+};
+window.abrirModalCicero = () => {
+  document.getElementById('ci-data').value = new Date().toISOString().slice(0,10);
+  ['atualizacao_cad','tempo_atualizacao','erro_imagem','os_executadas','inovacao','manutencao_ti','banco_dados']
+    .forEach(k => { const el = document.getElementById(`ci-${k}`); if(el) el.value=''; });
+  document.getElementById('modal-cicero').classList.add('open');
+};
+window.fecharModais = () => {
+  document.querySelectorAll('.modal-bg').forEach(m => m.classList.remove('open'));
+};
+
+window.salvarArthur = async () => {
+  const data = {
+    data: document.getElementById('ar-data').value,
+    mes: parseInt(document.getElementById('ar-mes').value),
+    ano: parseInt(document.getElementById('ar-ano').value),
+  };
+  Object.keys(METAS_AR).forEach(k => {
+    const el = document.getElementById(`ar-${k}`);
+    data[k] = el && el.value !== '' ? parseFloat(el.value) : null;
   });
   try {
-    const docKey = quem === 'arthur' ? 'metas_arthur' : 'metas_cicero';
-    await setDoc(doc(db, 'config', docKey), obj);
-    toast(`Metas de ${quem === 'arthur' ? 'Arthur' : 'Cícero'} salvas!`, 'success');
-  } catch(e) { toast('Erro ao salvar', 'error'); }
+    await addDoc(collection(db,'lancamentos_arthur'), data);
+    fecharModais(); toast('✅ Lançamento salvo!');
+    await carregarDadosArthur();
+  } catch(e) { toast('❌ Erro ao salvar'); }
+};
+window.salvarCicero = async () => {
+  const data = {
+    data: document.getElementById('ci-data').value,
+    mes: parseInt(document.getElementById('ci-mes').value),
+    ano: parseInt(document.getElementById('ci-ano').value),
+  };
+  Object.keys(METAS_CI).forEach(k => {
+    const el = document.getElementById(`ci-${k}`);
+    data[k] = el && el.value !== '' ? parseFloat(el.value) : null;
+  });
+  try {
+    await addDoc(collection(db,'lancamentos_cicero'), data);
+    fecharModais(); toast('✅ Lançamento salvo!');
+    if (document.getElementById('screen-cicero').style.display==='flex') await carregarDadosCicero();
+    else await carregarDadosArthur();
+  } catch(e) { toast('❌ Erro ao salvar'); }
 };
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
-(async () => {
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(()=>{});
-  await carregarConfig();
-})();
+// ── CONFIG ──
+function renderConfigMetasArthur() {
+  document.getElementById('config-metas-ar').innerHTML = Object.keys(METAS_AR).map(k => {
+    const m = METAS_AR[k];
+    return `<div style="margin-bottom:12px">
+      <p style="font-size:.8rem;color:var(--muted);margin-bottom:5px">${m.label}</p>
+      <div class="config-row">
+        <div><label>Bronze</label><input type="number" id="mar-${k}-b" value="${m.bronze}" step="0.1" onchange="METAS_AR_temp['${k}']||={}; METAS_AR_temp['${k}'].bronze=parseFloat(this.value)"></div>
+        <div><label>Prata</label><input type="number" id="mar-${k}-p" value="${m.prata}" step="0.1"></div>
+        <div><label>Ouro</label><input type="number" id="mar-${k}-o" value="${m.ouro}" step="0.1"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function renderConfigMetasCicero() {
+  document.getElementById('config-metas-ci').innerHTML = Object.keys(METAS_CI).map(k => {
+    const m = METAS_CI[k];
+    return `<div style="margin-bottom:12px">
+      <p style="font-size:.8rem;color:var(--muted);margin-bottom:5px">${m.label}</p>
+      <div class="config-row">
+        <div><label>Bronze</label><input type="number" id="mci-${k}-b" value="${m.bronze}" step="0.1"></div>
+        <div><label>Prata</label><input type="number" id="mci-${k}-p" value="${m.prata}" step="0.1"></div>
+        <div><label>Ouro</label><input type="number" id="mci-${k}-o" value="${m.ouro}" step="0.1"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.salvarMetasArthur = async () => {
+  Object.keys(METAS_AR).forEach(k => {
+    const b = document.getElementById(`mar-${k}-b`);
+    const p = document.getElementById(`mar-${k}-p`);
+    const o = document.getElementById(`mar-${k}-o`);
+    if(b) METAS_AR[k].bronze = parseFloat(b.value);
+    if(p) METAS_AR[k].prata  = parseFloat(p.value);
+    if(o) METAS_AR[k].ouro   = parseFloat(o.value);
+  });
+  const obj = {};
+  Object.keys(METAS_AR).forEach(k => obj[k] = {bronze:METAS_AR[k].bronze, prata:METAS_AR[k].prata, ouro:METAS_AR[k].ouro});
+  await setDoc(doc(db,'config','metas_arthur'), obj);
+  toast('✅ Metas Arthur salvas!');
+};
+window.salvarMetasCicero = async () => {
+  Object.keys(METAS_CI).forEach(k => {
+    const b = document.getElementById(`mci-${k}-b`);
+    const p = document.getElementById(`mci-${k}-p`);
+    const o = document.getElementById(`mci-${k}-o`);
+    if(b) METAS_CI[k].bronze = parseFloat(b.value);
+    if(p) METAS_CI[k].prata  = parseFloat(p.value);
+    if(o) METAS_CI[k].ouro   = parseFloat(o.value);
+  });
+  const obj = {};
+  Object.keys(METAS_CI).forEach(k => obj[k] = {bronze:METAS_CI[k].bronze, prata:METAS_CI[k].prata, ouro:METAS_CI[k].ouro});
+  await setDoc(doc(db,'config','metas_cicero'), obj);
+  toast('✅ Metas Cícero salvas!');
+};
+
+window.salvarSenhas = async () => {
+  const ar  = document.getElementById('nova-senha-ar').value;
+  const ci  = document.getElementById('nova-senha-ci').value;
+  const adm = document.getElementById('nova-senha-admin').value;
+  const snap = await getDoc(doc(db,'config','senhas_cadastro'));
+  const atual = snap.exists() ? snap.data() : { arthur:'arthur123', cicero:'cicero123', admin:'admin123' };
+  if(ar)  atual.arthur = ar;
+  if(ci)  atual.cicero = ci;
+  if(adm) atual.admin  = adm;
+  await setDoc(doc(db,'config','senhas_cadastro'), atual);
+  toast('✅ Senhas salvas!');
+};
+
+function atualizarApiUrls() {
+  const key = 'AIzaSyDTqmtUcFa2EZTD304RYb_vb6BLvo9PknQ';
+  document.getElementById('api-url-ar').textContent =
+    `https://firestore.googleapis.com/v1/projects/jr-banho/databases/(default)/documents/lancamentos_arthur?key=${key}`;
+  document.getElementById('api-url-ci').textContent =
+    `https://firestore.googleapis.com/v1/projects/jr-banho/databases/(default)/documents/lancamentos_cicero?key=${key}`;
+}
+window.copiarApi = (quem) => {
+  const el = document.getElementById(`api-url-${quem}`);
+  navigator.clipboard.writeText(el.textContent).then(() => toast('✅ URL copiada!'));
+};
+
+// ── TABS ──
+window.showTab = (prefix, tab, btn) => {
+  const screen = prefix === 'ci' ? 'screen-cicero' : 'screen-arthur';
+  document.querySelectorAll(`#${screen} .tab-content`).forEach(t => t.classList.remove('active'));
+  document.querySelectorAll(`#${screen} .tab-btn`).forEach(b => b.classList.remove('active'));
+  document.getElementById(`${prefix}-tab-${tab}`).classList.add('active');
+  btn.classList.add('active');
+};
+
+// ── HISTÓRICO TOGGLE ──
+window.switchHistMode = (prefix, mode, btn) => {
+  document.querySelectorAll(`#${prefix}-tab-historico .htog-btn`).forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const mensal = document.getElementById(`${prefix}-hist-mensal`);
+  const diario = document.getElementById(`${prefix}-hist-diario`);
+  if (mode === 'mensal') { mensal.style.display='block'; diario.style.display='none'; }
+  else { mensal.style.display='none'; diario.style.display='block'; }
+};
+
+// ── SERVICE WORKER ──
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(()=>{});
 </script>
 </body>
 </html>
