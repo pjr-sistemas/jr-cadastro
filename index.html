@@ -3,38 +3,60 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-<meta name="theme-color" content="#1e293b"/>
+<meta name="theme-color" content="#0A0A0A"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <title>JR Cadastro</title>
 <link rel="manifest" href="manifest.json"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh;overflow-x:hidden}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#0A0A0A;color:#e2e8f0;min-height:100vh;overflow-x:hidden}
 :root{
-  --bronze:#cd7f32;--prata:#a8a9ad;--ouro:#ffd700;
-  --bg:#0f172a;--card:#1e293b;--card2:#273344;--border:#334155;
-  --text:#e2e8f0;--muted:#94a3b8;--accent:#3b82f6;
-  --green:#22c55e;--red:#ef4444;--yellow:#eab308;
+  --bronze:#CD7F32;--prata:#A8A9AD;--ouro:#FFD700;
+  --gold:#C9A84C;--gold-l:#E8C96B;
+  --bg:#0A0A0A;--card:#141414;--card2:#1C1C1C;--border:#2A2A2A;
+  --text:#FFFFFF;--muted:#888888;--accent:#3b82f6;
+  --green:#43A047;--red:#E53935;--yellow:#eab308;
 }
 
 /* LOGIN */
-#login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;gap:20px}
-.login-logo{font-size:48px;margin-bottom:8px}
-.login-title{font-size:24px;font-weight:700;color:#fff;text-align:center}
-.login-sub{font-size:14px;color:var(--muted);text-align:center}
-.login-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;width:100%;max-width:360px;display:flex;flex-direction:column;gap:16px}
-.login-card h3{font-size:16px;font-weight:600;color:var(--muted);text-align:center}
-.btn-login{padding:14px;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer;transition:.2s;width:100%}
-.btn-arthur{background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:#fff}
-.btn-cicero{background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:#fff}
-.btn-login:active{transform:scale(.97)}
+#login-screen{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:100vh;padding:24px;
+  background:radial-gradient(ellipse at top,#1a1400 0%,#0A0A0A 70%);
+}
+#login-screen img.login-logo{width:180px;margin-bottom:24px}
+#login-screen h1{font-size:1.4rem;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;text-align:center}
+#login-screen p.login-sub{color:var(--muted);font-size:.85rem;margin-bottom:28px;text-align:center}
+.role-btns{display:flex;gap:12px;margin-bottom:20px;width:100%;max-width:340px}
+.role-btn{
+  flex:1;padding:13px 16px;border-radius:10px;border:2px solid var(--border);
+  background:var(--card);color:var(--muted);font-size:.92rem;cursor:pointer;
+  transition:all .2s;text-align:center;font-weight:600;
+}
+.role-btn.active{border-color:var(--gold);color:var(--gold);background:#1e1600}
+.login-box{width:100%;max-width:340px;display:flex;flex-direction:column;gap:12px}
+.login-box input{
+  padding:14px 16px;border-radius:10px;border:1.5px solid var(--border);
+  background:var(--card2);color:var(--text);font-size:1rem;outline:none;
+  transition:.2s;width:100%;
+}
+.login-box input:focus{border-color:var(--gold)}
+.btn-gold{
+  padding:14px;border-radius:10px;border:none;
+  background:var(--gold);color:#0A0A0A;font-size:1rem;font-weight:700;
+  cursor:pointer;transition:background .2s;width:100%;
+}
+.btn-gold:hover{background:var(--gold-l)}
+.login-err{color:var(--red);font-size:.85rem;text-align:center;min-height:18px}
+.falcioni-footer{margin-top:36px;opacity:.3}
+.falcioni-footer img{height:24px}
 input[type=password],input[type=text],input[type=number]{
-  background:#0f172a;border:1px solid var(--border);border-radius:8px;
-  color:var(--text);font-size:15px;padding:10px 12px;width:100%;
+  background:var(--card2);border:1.5px solid var(--border);border-radius:10px;
+  color:var(--text);font-size:15px;padding:12px 14px;width:100%;
   outline:none;transition:.2s
 }
-input:focus{border-color:var(--accent)}
+input:focus{border-color:var(--gold)}
 
 /* APP */
 #app{display:none;flex-direction:column;min-height:100vh}
@@ -187,20 +209,21 @@ tr:hover td{background:rgba(255,255,255,.03)}
 
 <!-- LOGIN -->
 <div id="login-screen">
-  <div class="login-logo">📋</div>
-  <div class="login-title">JR Cadastro</div>
-  <div class="login-sub">Indicadores de Desempenho</div>
-  <div class="login-card">
-    <h3>Acesse sua conta</h3>
-    <div>
-      <label class="form-label">Senha</label>
-      <input type="password" id="login-senha" placeholder="Digite a senha..." onkeydown="if(event.key==='Enter')tentarLogin()"/>
-    </div>
-    <button class="btn-login btn-arthur" onclick="tentarLogin('arthur')">📊 Entrar como Arthur</button>
-    <button class="btn-login btn-cicero" onclick="tentarLogin('cicero')">🔧 Entrar como Cícero</button>
-    <div id="login-erro" style="color:var(--red);font-size:13px;text-align:center;display:none">Senha incorreta.</div>
+  <img src="logo-jr.png" class="login-logo" alt="JR Joias"/>
+  <h1>JR Cadastro</h1>
+  <p class="login-sub">Indicadores de Desempenho</p>
+  <div class="role-btns">
+    <button class="role-btn active" id="role-arthur" onclick="selecionarRole('arthur')">📊 Arthur</button>
+    <button class="role-btn" id="role-cicero" onclick="selecionarRole('cicero')">🔧 Cícero</button>
   </div>
-  <div style="font-size:12px;color:var(--muted);opacity:.5">Falcioni Consultoria</div>
+  <div class="login-box">
+    <input type="password" id="login-senha" placeholder="Digite a senha..." onkeydown="if(event.key==='Enter')tentarLogin()"/>
+    <button class="btn-gold" onclick="tentarLogin()">Entrar</button>
+    <div class="login-err" id="login-erro"></div>
+  </div>
+  <div class="falcioni-footer">
+    <img src="jr.png" alt="JR"/>
+  </div>
 </div>
 
 <!-- APP -->
@@ -440,12 +463,23 @@ async function carregarLancamentosAno(quem, ano) {
 }
 
 // ── LOGIN ─────────────────────────────────────────────────────────────────────
-window.tentarLogin = async function(tipo) {
+let roleSelecionado = 'arthur';
+
+window.selecionarRole = function(role) {
+  roleSelecionado = role;
+  document.getElementById('role-arthur').classList.toggle('active', role === 'arthur');
+  document.getElementById('role-cicero').classList.toggle('active', role === 'cicero');
+  document.getElementById('login-senha').value = '';
+  document.getElementById('login-erro').textContent = '';
+};
+
+window.tentarLogin = async function() {
+  const tipo = roleSelecionado;
   const senha = document.getElementById('login-senha').value.trim();
   const erroEl = document.getElementById('login-erro');
-  erroEl.style.display = 'none';
+  erroEl.textContent = '';
   if (senha !== senhas[tipo]) {
-    erroEl.style.display = 'block';
+    erroEl.textContent = 'Senha incorreta.';
     return;
   }
   perfil = tipo;
