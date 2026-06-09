@@ -327,7 +327,7 @@
   <div id="ar-tab-dashboard" class="tab-content">
     <div class="dash-kpis">
       <div class="dash-kpi"><div class="dk-label">Bonif. Arthur</div><div class="dk-val" id="dk-ar">—</div><div class="dk-sub">mês atual</div></div>
-      <div class="dash-kpi"><div class="dk-label">Bonif. Cícero</div><div class="dk-val" id="dk-ci">—</div><div class="dk-sub">mês atual</div></div>
+      <div class="dash-kpi"><div class="dk-label">Bonif. Auxiliar</div><div class="dk-val" id="dk-ci">—</div><div class="dk-sub">mês atual</div></div>
       <div class="dash-kpi"><div class="dk-label">Total Pago</div><div class="dk-val" id="dk-total">—</div><div class="dk-sub">supervisor + auxiliar</div></div>
       <div class="dash-kpi"><div class="dk-label">Indicadores Ouro</div><div class="dk-val" id="dk-ouro" style="color:var(--ouro)">—</div><div class="dk-sub">de 14 totais</div></div>
     </div>
@@ -336,7 +336,7 @@
       <div id="dash-bars-ar"></div>
     </div>
     <div class="dash-section">
-      <h4>🏅 Status dos Indicadores — Cícero</h4>
+      <h4>🏅 Status dos Indicadores — Auxiliar</h4>
       <div id="dash-bars-ci"></div>
     </div>
     <div class="dash-section">
@@ -352,7 +352,7 @@
     </div>
   </div>
 
-  <!-- Tab Auxiliar (Cícero) -->
+  <!-- Tab Auxiliar (Auxiliar) -->
   <div id="ar-tab-auxiliar-view" class="tab-content">
     <p class="section-title">Ranking Auxiliares — Mês Selecionado</p>
     <div id="ga-loading" class="loading"><div class="spinner"></div>Carregando...</div>
@@ -409,7 +409,7 @@
       <h4>🔑 Senhas</h4>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
         <div class="form-group"><label>Nova senha — Arthur</label><input type="password" id="nova-senha-ar" placeholder="••••••"></div>
-        <div class="form-group"><label>Nova senha — Cícero</label><input type="password" id="nova-senha-ci" placeholder="••••••"></div>
+        <div class="form-group"><label>Nova senha — Auxiliar</label><input type="password" id="nova-senha-ci" placeholder="••••••"></div>
         <div class="form-group"><label>Nova senha — Admin 🔒</label><input type="password" id="nova-senha-admin" placeholder="••••••"></div>
       </div>
       <button class="btn-gold" onclick="salvarSenhas()" style="padding:10px 20px;font-size:.85rem">Salvar Senhas</button>
@@ -420,9 +420,9 @@
       <button class="btn-gold" onclick="salvarMetasArthur()" style="padding:10px 20px;font-size:.85rem;margin-top:8px">Salvar Metas Arthur</button>
     </div>
     <div class="config-section">
-      <h4>🎯 Metas — Cícero</h4>
+      <h4>🎯 Metas — Auxiliar</h4>
       <div id="config-metas-ci"></div>
-      <button class="btn-gold" onclick="salvarMetasCicero()" style="padding:10px 20px;font-size:.85rem;margin-top:8px">Salvar Metas Cícero</button>
+      <button class="btn-gold" onclick="salvarMetasCicero()" style="padding:10px 20px;font-size:.85rem;margin-top:8px">Salvar Metas Auxiliar</button>
     </div>
     <div class="config-section">
       <h4>🔗 API Power BI</h4>
@@ -433,7 +433,7 @@
         <button class="btn-copy" onclick="copiarApi('ar')">Copiar</button>
       </div>
       <div style="margin-top:12px">
-        <p style="font-size:.75rem;color:var(--gold);margin-bottom:4px">Lançamentos Cícero:</p>
+        <p style="font-size:.75rem;color:var(--gold);margin-bottom:4px">Lançamentos Auxiliar:</p>
         <div class="api-box" id="api-url-ci"></div>
         <button class="btn-copy" onclick="copiarApi('ci')">Copiar</button>
       </div>
@@ -441,7 +441,7 @@
     <div class="config-section" style="border-top:1px solid var(--border);padding-top:24px;margin-top:8px">
       <h4 style="color:var(--danger)">🗑️ Limpar Dados</h4>
       <p style="font-size:.82rem;color:var(--muted);margin-bottom:14px">
-        Remove <strong style="color:var(--text)">todos</strong> os lançamentos de Arthur e Cícero do Firebase. Esta ação não pode ser desfeita.
+        Remove <strong style="color:var(--text)">todos</strong> os lançamentos de Arthur e Auxiliar do Firebase. Esta ação não pode ser desfeita.
       </p>
       <button onclick="abrirModalLimpar()"
         style="padding:10px 20px;border-radius:8px;border:1.5px solid var(--danger);background:none;color:var(--danger);font-size:.9rem;font-weight:700;cursor:pointer">
@@ -460,7 +460,7 @@
     <img class="logo-h" src="logo-jr.png" alt="JR" onerror="this.style.display='none'">
     <div class="info">
       <h2>Setor Cadastro</h2>
-      <span>Auxiliar Cícero</span>
+      <span>Auxiliar Auxiliar</span>
     </div>
     <div class="mes-sel">
       <select id="ci-mes" onchange="carregarDadosCicero()">
@@ -479,7 +479,7 @@
     <button class="tab-btn" onclick="showTab('ci','historico',this)">📅 Histórico</button>
   </div>
 
-  <!-- Tab Indicadores Cícero -->
+  <!-- Tab Indicadores Auxiliar -->
   <div id="ci-tab-indicadores" class="tab-content active">
     <button class="btn-lancar" onclick="abrirModalCicero()">＋ Lançar Hoje</button>
     <div class="lancamentos-dia" id="ci-lanc-hoje"></div>
@@ -494,9 +494,9 @@
     </div>
   </div>
 
-  <!-- Tab Histórico Cícero -->
+  <!-- Tab Histórico Auxiliar -->
   <div id="ci-tab-historico" class="tab-content">
-    <p class="section-title">Histórico — Cícero</p>
+    <p class="section-title">Histórico — Auxiliar</p>
     <div class="hist-toggle">
       <button class="htog-btn active" onclick="switchHistMode('ci','mensal',this)">📅 Mensal</button>
       <button class="htog-btn" onclick="switchHistMode('ci','diario',this)">📋 Diário</button>
@@ -585,7 +585,7 @@
 <!-- ── MODAL LANÇAMENTO CÍCERO ── -->
 <div class="modal-bg" id="modal-cicero">
   <div class="modal">
-    <h3>📋 Lançar Indicadores — Cícero</h3>
+    <h3>📋 Lançar Indicadores — Auxiliar</h3>
     <div class="form-group"><label>Data do Lançamento</label><input type="date" id="ci-data"></div>
     <div class="form-group">
       <label>Atualização de Cadastros (%)</label>
@@ -650,7 +650,7 @@
   <div class="modal" style="max-width:360px">
     <h3 style="color:var(--danger)">⚠️ Limpar Todos os Dados</h3>
     <p style="font-size:.85rem;color:var(--muted);margin-bottom:8px">
-      Isso irá apagar <strong style="color:var(--text)">permanentemente</strong> todos os lançamentos de Arthur e Cícero.
+      Isso irá apagar <strong style="color:var(--text)">permanentemente</strong> todos os lançamentos de Arthur e Auxiliar.
     </p>
     <p style="font-size:.82rem;color:var(--danger);margin-bottom:16px;padding:10px;background:#1a0000;border-radius:8px;border:1px solid #3a0000">
       ⚠️ Esta ação <strong>não pode ser desfeita</strong>.
@@ -920,7 +920,7 @@ async function carregarDadosCiceroView(mes, ano) {
   document.getElementById('ga-loading').style.display='none';
   document.getElementById('ga-ranking').innerHTML = `<div class="rank-card">
     <div class="rc-header">
-      <span class="rc-nome">👤 Cícero</span>
+      <span class="rc-nome">👤 Auxiliar</span>
       ${semLanc ? '<span class="rc-semlanc">Sem lançamento</span>' : `<span class="rc-bonif">${fmtBonif(bonif)}</span>`}
     </div>
     ${semLanc ? '' : `<div class="rc-inds">${indsHtml}</div>`}
@@ -997,7 +997,7 @@ async function renderDashboard(mes, ano) {
     </div>`;
   }).join('');
 
-  // Barras Cícero
+  // Barras Auxiliar
   document.getElementById('dash-bars-ci').innerHTML = Object.keys(METAS_CI).map(k => {
     const nv = avaliar(k, tCI[k], METAS_CI);
     const pct = nv==='Ouro'?100:nv==='Prata'?70:nv==='Bronze'?45:20;
@@ -1046,7 +1046,7 @@ function renderGrafico(serA, serC) {
     ${serC.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="4" fill="#6b8cff"/>`).join('')}
     ${labels}`;
   document.getElementById('dash-chart-legend').innerHTML = `
-    <span>🟡 Arthur</span><span>🔵 Cícero</span>`;
+    <span>🟡 Arthur</span><span>🔵 Auxiliar</span>`;
 }
 
 // ── HISTÓRICO ──
@@ -1209,7 +1209,7 @@ window.salvarMetasCicero = async () => {
   const obj = {};
   Object.keys(METAS_CI).forEach(k => obj[k] = {bronze:METAS_CI[k].bronze, prata:METAS_CI[k].prata, ouro:METAS_CI[k].ouro});
   await setDoc(doc(db,'config','metas_cicero'), obj);
-  toast('✅ Metas Cícero salvas!');
+  toast('✅ Metas Auxiliar salvas!');
 };
 
 window.salvarSenhas = async () => {
