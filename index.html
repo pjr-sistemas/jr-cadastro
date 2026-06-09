@@ -438,6 +438,16 @@
         <button class="btn-copy" onclick="copiarApi('ci')">Copiar</button>
       </div>
     </div>
+    <div class="config-section" style="border-top:1px solid var(--border);padding-top:24px;margin-top:8px">
+      <h4 style="color:var(--danger)">🗑️ Limpar Dados</h4>
+      <p style="font-size:.82rem;color:var(--muted);margin-bottom:14px">
+        Remove <strong style="color:var(--text)">todos</strong> os lançamentos de Arthur e Cícero do Firebase. Esta ação não pode ser desfeita.
+      </p>
+      <button onclick="abrirModalLimpar()"
+        style="padding:10px 20px;border-radius:8px;border:1.5px solid var(--danger);background:none;color:var(--danger);font-size:.9rem;font-weight:700;cursor:pointer">
+        🗑️ Limpar todos os dados
+      </button>
+    </div>
     <div class="falcioni-footer" style="text-align:center;margin-top:24px;opacity:.3">
       <img src="Falcioni.jpg" alt="Falcioni" style="height:24px" onerror="this.style.display='none'">
     </div>
@@ -635,13 +645,40 @@
   </div>
 </div>
 
+<!-- ── MODAL LIMPAR DADOS ── -->
+<div class="modal-bg" id="modal-limpar">
+  <div class="modal" style="max-width:360px">
+    <h3 style="color:var(--danger)">⚠️ Limpar Todos os Dados</h3>
+    <p style="font-size:.85rem;color:var(--muted);margin-bottom:8px">
+      Isso irá apagar <strong style="color:var(--text)">permanentemente</strong> todos os lançamentos de Arthur e Cícero.
+    </p>
+    <p style="font-size:.82rem;color:var(--danger);margin-bottom:16px;padding:10px;background:#1a0000;border-radius:8px;border:1px solid #3a0000">
+      ⚠️ Esta ação <strong>não pode ser desfeita</strong>.
+    </p>
+    <p style="font-size:.8rem;color:var(--muted);margin-bottom:8px">Digite <strong style="color:var(--text)">CONFIRMAR</strong> para prosseguir:</p>
+    <div class="form-group">
+      <input type="text" id="limpar-confirm-input" placeholder="CONFIRMAR"
+             style="text-transform:uppercase;letter-spacing:2px"
+             oninput="this.value=this.value.toUpperCase()">
+    </div>
+    <div class="login-err" id="limpar-err"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="fecharModais()">Cancelar</button>
+      <button onclick="confirmarLimpar()"
+        style="flex:1;padding:12px;border-radius:8px;border:none;background:var(--danger);color:#fff;font-size:.9rem;font-weight:700;cursor:pointer">
+        🗑️ Apagar tudo
+      </button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <!-- ── FIREBASE ── -->
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getFirestore, collection, addDoc, getDocs, query, where,
-         doc, setDoc, getDoc, orderBy }
+         doc, setDoc, getDoc, orderBy, deleteDoc }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const firebaseConfig = {
@@ -1217,6 +1254,30 @@ window.switchHistMode = (prefix, mode, btn) => {
   const diario = document.getElementById(`${prefix}-hist-diario`);
   if (mode === 'mensal') { mensal.style.display='block'; diario.style.display='none'; }
   else { mensal.style.display='none'; diario.style.display='block'; }
+};
+
+// ── LIMPAR DADOS ──
+window.abrirModalLimpar = () => {
+  document.getElementById('limpar-confirm-input').value = '';
+  document.getElementById('limpar-err').textContent = '';
+  document.getElementById('modal-limpar').classList.add('open');
+};
+window.confirmarLimpar = async () => {
+  const val = document.getElementById('limpar-confirm-input').value;
+  const err = document.getElementById('limpar-err');
+  if (val !== 'CONFIRMAR') { err.textContent = 'Digite CONFIRMAR para prosseguir'; return; }
+  try {
+    const [snapAR, snapCI] = await Promise.all([
+      getDocs(collection(db,'lancamentos_arthur')),
+      getDocs(collection(db,'lancamentos_cicero'))
+    ]);
+    const batch1 = snapAR.docs.map(d => deleteDoc(doc(db,'lancamentos_arthur',d.id)));
+    const batch2 = snapCI.docs.map(d => deleteDoc(doc(db,'lancamentos_cicero',d.id)));
+    await Promise.all([...batch1, ...batch2]);
+    fecharModais();
+    toast(`✅ ${snapAR.size + snapCI.size} lançamentos apagados`);
+    await carregarDadosArthur();
+  } catch(e) { err.textContent = 'Erro ao apagar dados'; }
 };
 
 // ── SERVICE WORKER ──
